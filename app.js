@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const mongoose = require("mongoose");
 const PORT = 5002;
@@ -12,6 +13,7 @@ mongoose.connection.on("connected", () => {
 mongoose.connection.on("error", (err) => {
   console.log("mongo connecting", err);
 });
+app.use(cors());
 
 require("./models/user");
 require("./models/item");
