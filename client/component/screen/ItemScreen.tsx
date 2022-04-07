@@ -11,12 +11,12 @@ import { Props } from "./props";
 //     "https://data-seed-prebsc-1-s1.binance.org:8545/"
 //   )
 // );
+const web3 = new Web3(window.ethereum);
 
 const ItemScreen: React.FC<Props> = (props) => {
   const { id } = props;
   const { user, setUser } = useContext(UserContext);
   const [itemData, setItemData] = useState([]);
-  const web3 = typeof window !== undefined ? new Web3(window.ethereum) : "";
 
   useEffect(() => {
     const itemFetch = async () => {
@@ -31,15 +31,13 @@ const ItemScreen: React.FC<Props> = (props) => {
     setItemData([]);
   }, []);
 
-  const sendTransaction = async (seller: string, price: number) => {
-    if (!web3) return;
-    console.log(user?.data?.walletAdd, " + ", seller);
+  const sendTransaction = async (item) => {
     let fromAddress = user?.data?.walletAdd;
     let tokenAddress = "0x9a1377A194ca85C74BB3155be0877799D81F45A7";
-    let toAddress = "0xfC8838E4FEb2A2812A10e84FB9428058C81BA2CE";
+    let toAddress = item.postedBy.walletAdd;
     // Use BigNumber
     let decimals = web3.utils.toBN(18);
-    let amount = web3.utils.toBN(10);
+    let amount = web3.utils.toBN(item.price);
     let value = amount.mul(web3.utils.toBN(10).pow(decimals));
 
     // Get ERC20 Token contract instance
@@ -50,6 +48,33 @@ const ItemScreen: React.FC<Props> = (props) => {
       .send({ from: fromAddress })
       .on("receipt", (receipt) => {
         console.log(receipt);
+        createOrder(item);
+      });
+  };
+
+  const createOrder = (order) => {
+    const { itemId, txn, address1, address2, postcode, state, country } = order;
+
+    fetch("http://localhost:5002/createOrder", {
+      method: "post",
+      body: JSON.stringify({
+        itemId,
+        buyerId: user?.data?.walletAdd,
+        sellerId: order.postedBy.walletAdd,
+        txn,
+        address1,
+        address2,
+        postcode,
+        state,
+        country,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -61,11 +86,7 @@ const ItemScreen: React.FC<Props> = (props) => {
           return (
             <div>
               <p>{item.title}</p>
-              <button
-                onClick={() =>
-                  sendTransaction(item.postedBy.walletAdd, item.price)
-                }
-              >
+              <button onClick={() => sendTransaction(item)}>
                 {item.price} USMT
               </button>
             </div>

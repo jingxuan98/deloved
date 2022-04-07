@@ -16,7 +16,6 @@ router.post("/createOrder", (req, res) => {
     postcode,
     state,
     country,
-    status,
   } = req.body;
   if (!itemId || !buyerId || !sellerId || !txn) {
     res.status(422).json({
@@ -39,7 +38,7 @@ router.post("/createOrder", (req, res) => {
       postcode,
       state,
       country,
-      status,
+      status: "PROCESSING",
     });
 
     Item.findByIdAndUpdate(
