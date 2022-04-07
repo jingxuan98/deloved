@@ -7,13 +7,14 @@ export default function Home() {
   const { user, setUser } = useContext(UserContext);
   const [itemData, setItemData] = useState([]);
 
-  fetch("http://localhost:5002/allitems")
-    .then((res) => res.json())
-    .then((result) => {
-      console.log(result.items);
-      setItemData(result.items);
-    });
-
+  useEffect(() => {
+    fetch("http://localhost:5002/allitems")
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result.items);
+        setItemData(result.items);
+      });
+  }, []);
   //#endregion
 
   return (

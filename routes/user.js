@@ -45,7 +45,7 @@ router.post("/register", (req, res) => {
   User.findOne({ walletAdd: walletAdd })
     .then((savedUser) => {
       if (savedUser) {
-        return res.status(200).send({ message: "Success" });
+        return res.status(200).send({ message: "Success", data: savedUser });
       }
       const user = new User({
         name,
@@ -55,7 +55,7 @@ router.post("/register", (req, res) => {
       });
 
       user.save().then((user) => {
-        res.json({ message: "User created successfully" });
+        res.json({ message: "User created successfully", data: user });
       });
     })
     .catch((err) => {

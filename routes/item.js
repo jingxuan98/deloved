@@ -6,6 +6,7 @@ const Item = mongoose.model("Item");
 router.get("/allItems", (req, res) => {
   Item.find()
     .populate("postedBy", "_id name")
+    .populate("boughtBy", "_id name walletAdd")
     .sort("-createdAt")
     .then((items) => {
       res.json({ items });
@@ -15,9 +16,9 @@ router.get("/allItems", (req, res) => {
     });
 });
 
-router.get("/myitem", (req, res) => {
+router.post("/myitem", (req, res) => {
   Item.find({
-    postedBy: req.user._id,
+    postedBy: req.body._id,
   })
     .populate("postedBy", "_id name walletAdd")
     .then((myitem) => {

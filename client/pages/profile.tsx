@@ -30,7 +30,7 @@ export default function Profile() {
 
   return (
     <div className={styles.container}>
-      <h1>Home</h1>
+      <h1>Profile</h1>
       {itemData &&
         itemData.map((item) => {
           return <p>{item.title}</p>;

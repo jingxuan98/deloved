@@ -29,6 +29,10 @@ const itemSchema = new mongoose.Schema(
       type: ObjectId,
       ref: "User",
     },
+    boughtBy: {
+      type: ObjectId,
+      ref: "User",
+    },
     status: {
       type: String,
       enum: ["UNSOLD", "SOLD"],
