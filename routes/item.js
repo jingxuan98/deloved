@@ -16,6 +16,19 @@ router.get("/allItems", (req, res) => {
     });
 });
 
+router.get("/item/:id", (req, res) => {
+  Item.find({ _id: req.params.id })
+    .populate("postedBy", "_id name walletAdd")
+    .populate("boughtBy", "_id name walletAdd")
+    .sort("-createdAt")
+    .then((item) => {
+      res.json({ item });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 router.post("/myitem", (req, res) => {
   Item.find({
     postedBy: req.body._id,
@@ -50,9 +63,9 @@ router.post("/createItem", (req, res) => {
 
   item
     .save()
-    .then((result) => {
+    .then((post) => {
       res.json({
-        post: result,
+        post,
       });
     })
     .catch((err) => {

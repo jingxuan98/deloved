@@ -2,7 +2,7 @@ import styles from "../styles/Home.module.css";
 import { UserContext } from "./_app";
 import { useContext, useState, useEffect } from "react";
 
-export default function Profile() {
+export default function Orders() {
   const { user, setUser } = useContext(UserContext);
   const [orderData, setOrderData] = useState([]);
   const [soldData, setSoldData] = useState([]);
@@ -20,8 +20,8 @@ export default function Profile() {
       })
         .then((res) => res.json())
         .then((result) => {
-          console.log(result.myorder);
-          setOrderData(result.myitem);
+          console.log(result.order);
+          setOrderData(result.order);
         });
     };
     const soldOrdersFetch = async () => {
@@ -36,8 +36,8 @@ export default function Profile() {
       })
         .then((res) => res.json())
         .then((result) => {
-          console.log(result.mysold);
-          setSoldData(result.myitem);
+          console.log(result.order);
+          setSoldData(result.order);
         });
     };
     if (user?.data?._id) {
@@ -51,9 +51,13 @@ export default function Profile() {
   return (
     <div className={styles.container}>
       <h1>Profile</h1>
-      {itemData &&
-        itemData.map((item) => {
-          return <p>{item.title}</p>;
+      {orderData &&
+        orderData.map((order) => {
+          return <p>{order.item.title}</p>;
+        })}
+      {soldData &&
+        soldData.map((order) => {
+          return <p>{order.item.title}</p>;
         })}
     </div>
   );

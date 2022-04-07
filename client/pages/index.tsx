@@ -1,10 +1,11 @@
 import styles from "../styles/Home.module.css";
 import { UserContext } from "../pages/_app";
 import { useContext, useState, useEffect } from "react";
-import { useWeb3React } from "@web3-react/core";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const { user, setUser } = useContext(UserContext);
+  const router = useRouter();
   const [itemData, setItemData] = useState([]);
 
   useEffect(() => {
@@ -24,7 +25,11 @@ export default function Home() {
         Hi there
         {itemData &&
           itemData.map((item) => {
-            return <p>{item.title}</p>;
+            return (
+              <div onClick={() => router.push(`/item/${item._id}`)}>
+                {item.title}
+              </div>
+            );
           })}
       </div>
     </>
