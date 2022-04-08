@@ -17,6 +17,9 @@ const ItemScreen: React.FC<Props> = (props) => {
   const { id } = props;
   const { user, setUser } = useContext(UserContext);
   const [itemData, setItemData] = useState([]);
+  const [itemInnerData, setItemInnerData] = useState(null);
+  const [txn, setTxn] = useState("");
+  const [txnSuccess, setTxnSuccess] = useState(false);
 
   useEffect(() => {
     const itemFetch = async () => {
@@ -31,7 +34,13 @@ const ItemScreen: React.FC<Props> = (props) => {
     setItemData([]);
   }, []);
 
+  useEffect(() => {
+    if (txnSuccess) createOrder(itemInnerData, txn);
+  }, [txnSuccess]);
+
   const sendTransaction = async (item) => {
+    setItemInnerData(item);
+    if (!user?.data?.walletAdd) return alert("Please connect your wallet");
     let fromAddress = user?.data?.walletAdd;
     let tokenAddress = "0x9a1377A194ca85C74BB3155be0877799D81F45A7";
     let toAddress = item.postedBy.walletAdd;
@@ -46,27 +55,33 @@ const ItemScreen: React.FC<Props> = (props) => {
     await contract.methods
       .transfer(toAddress, value)
       .send({ from: fromAddress })
-      .on("receipt", (receipt) => {
-        console.log(receipt);
-        createOrder(item);
-      });
+      .on("transactionHash", (hash) => {
+        setTxn(hash);
+      })
+      .on("confirmation", (confirmationNumber, receipt) => {
+        if (!txnSuccess) setTxnSuccess(true);
+      })
+      .on("error", console.error);
   };
 
-  const createOrder = (order) => {
-    const { itemId, txn, address1, address2, postcode, state, country } = order;
+  const createOrder = (item, txn) => {
+    console.log(item, txn);
 
     fetch("http://localhost:5002/createOrder", {
       method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
-        itemId,
-        buyerId: user?.data?.walletAdd,
-        sellerId: order.postedBy.walletAdd,
+        itemId: item?._id,
+        buyerId: user?.data?._id,
+        sellerId: item?.postedBy?._id,
         txn,
-        address1,
-        address2,
-        postcode,
-        state,
-        country,
+        // address1,
+        // address2,
+        // postcode,
+        // state,
+        // country,
       }),
     })
       .then((res) => res.json())

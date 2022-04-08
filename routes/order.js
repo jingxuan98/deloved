@@ -46,6 +46,7 @@ router.post("/createOrder", (req, res) => {
       {
         $set: {
           boughtBy: buyerId,
+          status: "SOLD",
         },
       },
       {
