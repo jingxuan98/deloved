@@ -1,10 +1,10 @@
-type User = {
+export type User = {
   _id?: string | string[];
   name?: string;
   walletAdd?: string;
 };
 //#endregion
-type data = {
+export type Item = {
   _id?: string | string[];
   title?: string;
   body?: string;
@@ -18,5 +18,5 @@ type data = {
 };
 
 export type Props = {
-  data?: data;
+  data?: Item;
 };
