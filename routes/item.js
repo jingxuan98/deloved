@@ -45,7 +45,7 @@ router.post("/myitem", (req, res) => {
 });
 
 router.post("/createItem", (req, res) => {
-  const { title, body, pic, status, price, catogery } = req.body;
+  const { title, body, photo, status, price, catogery } = req.body;
   if (!title || !body || !price || !catogery) {
     res.status(422).json({
       error: "Please make sure to connect your wallet and complete the fields",
@@ -54,7 +54,7 @@ router.post("/createItem", (req, res) => {
   const item = new Item({
     title,
     body,
-    photo: pic,
+    photo,
     status,
     price,
     catogery,
@@ -69,7 +69,7 @@ router.post("/createItem", (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      return res.status(422).json({ error: err });
     });
 });
 
@@ -94,14 +94,14 @@ router.delete("/deleteItem/:itemId", (req, res) => {
 });
 
 router.put("/updateItem/:itemId", (req, res) => {
-  const { title, body, pic, price, catogery } = req.body;
+  const { title, body, photo, price, catogery } = req.body;
   Item.findByIdAndUpdate(
     req.params.itemId,
     {
       $set: {
         title,
         body,
-        photo: pic,
+        photo,
         price,
         catogery,
       },

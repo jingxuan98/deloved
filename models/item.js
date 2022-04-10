@@ -13,7 +13,8 @@ const itemSchema = new mongoose.Schema(
     },
     photo: {
       type: String,
-      default: "No photo",
+      default:
+        "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty-300x240.jpg",
     },
     likes: [{ type: ObjectId, ref: "User" }],
     // comments: [
@@ -40,7 +41,15 @@ const itemSchema = new mongoose.Schema(
     },
     catogery: {
       type: String,
-      enum: ["Electronics", "Gifts", "House", "NSFW", "Vehicles"],
+      enum: [
+        "Weapons",
+        "Medical",
+        "Electronics",
+        "Gifts",
+        "House",
+        "NSFW",
+        "Vehicles",
+      ],
       required: true,
     },
     price: {

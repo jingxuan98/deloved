@@ -1,6 +1,7 @@
 import styles from "../styles/Home.module.css";
 import { UserContext } from "./_app";
-import { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import ItemSmallCard from "../component/itemSmallCard";
 
 export default function Profile() {
   const { user, setUser } = useContext(UserContext);
@@ -27,14 +28,34 @@ export default function Profile() {
     setItemData([]);
   }, [user]);
   //#endregion
+  const renderItems = () => {
+    return (
+      <div className={styles.innerContainer}>
+        {itemData ? (
+          itemData.map((item) => {
+            return <ItemSmallCard data={item} />;
+          })
+        ) : (
+          <div>
+            <h2 className={styles.header1}>
+              You Have No Items Selling Yet....
+            </h2>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className={styles.container}>
-      <h1>Profile</h1>
-      {itemData &&
-        itemData.map((item) => {
-          return <p>{item.title}</p>;
-        })}
+      <h1 className={styles.header1}>My Items</h1>
+      {!user?.data ? (
+        <h2 className={styles.header1} style={{ fontWeight: 300 }}>
+          Please Connect Your Wallet....
+        </h2>
+      ) : (
+        renderItems()
+      )}
     </div>
   );
 }

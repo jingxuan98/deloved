@@ -4,7 +4,8 @@ import { Web3ReactProvider } from "@web3-react/core";
 import Web3 from "web3";
 import { provider } from "web3-core";
 import Layout from "../layout";
-import "../styles/globals.css";
+import "antd/dist/antd.css";
+require("../styles/variables.less");
 
 export const UserContext = createContext(null);
 

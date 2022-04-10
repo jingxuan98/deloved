@@ -2,10 +2,10 @@ import styles from "../styles/Home.module.css";
 import { UserContext } from "../pages/_app";
 import { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import ItemSmallCard from "../component/itemSmallCard";
 
 export default function Home() {
   const { user, setUser } = useContext(UserContext);
-  const router = useRouter();
   const [itemData, setItemData] = useState([]);
 
   useEffect(() => {
@@ -19,19 +19,14 @@ export default function Home() {
   //#endregion
 
   return (
-    <>
-      <h1>Home</h1>
-      <div className={styles.container}>
-        Hi there
+    <div className={styles.container}>
+      <h1 className={styles.header1}>Featured Items</h1>
+      <div className={styles.innerContainer}>
         {itemData &&
           itemData.map((item) => {
-            return (
-              <div onClick={() => router.push(`/item/${item._id}`)}>
-                {item.title}
-              </div>
-            );
+            return <ItemSmallCard data={item} />;
           })}
       </div>
-    </>
+    </div>
   );
 }

@@ -1,5 +1,19 @@
 .container {
-  padding: 0 2rem;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.innerContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.header1 {
+  margin-top: 1.5rem;
 }
 
 .main {
