@@ -5,6 +5,7 @@ import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import { abi } from "./abi";
 import { Props } from "./props";
+import { Button } from "antd";
 
 // const web3 = new Web3(
 //   new Web3.providers.HttpProvider(
@@ -16,7 +17,7 @@ const web3 = new Web3(window.ethereum);
 const ItemScreen: React.FC<Props> = (props) => {
   const { id } = props;
   const { user, setUser } = useContext(UserContext);
-  const [itemData, setItemData] = useState([]);
+  const [itemData, setItemData] = useState<any[]>([]);
   const [itemInnerData, setItemInnerData] = useState(null);
   const [txn, setTxn] = useState("");
   const [txnSuccess, setTxnSuccess] = useState(false);
@@ -43,10 +44,11 @@ const ItemScreen: React.FC<Props> = (props) => {
     if (!user?.data?.walletAdd) return alert("Please connect your wallet");
     let fromAddress = user?.data?.walletAdd;
     let tokenAddress = "0x9a1377A194ca85C74BB3155be0877799D81F45A7";
-    let toAddress = item.postedBy.walletAdd;
+    let toAddress = item[0]?.postedBy?.walletAdd;
+
     // Use BigNumber
     let decimals = web3.utils.toBN(18);
-    let amount = web3.utils.toBN(item.price);
+    let amount = web3.utils.toBN(item[0].price);
     let value = amount.mul(web3.utils.toBN(10).pow(decimals));
 
     // Get ERC20 Token contract instance
@@ -73,9 +75,9 @@ const ItemScreen: React.FC<Props> = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        itemId: item?._id,
+        itemId: item[0]?._id,
         buyerId: user?.data?._id,
-        sellerId: item?.postedBy?._id,
+        sellerId: item[0]?.postedBy?._id,
         txn,
         // address1,
         // address2,
@@ -94,19 +96,29 @@ const ItemScreen: React.FC<Props> = (props) => {
   };
 
   return (
-    <div className={styles.container}>
-      <h1>Item</h1>
-      {itemData &&
-        itemData.map((item) => {
-          return (
+    <div className={styles.row}>
+      {itemData ? (
+        itemData.map((item) => (
+          <div className={styles.row}>
             <div>
-              <p>{item.title}</p>
-              <button onClick={() => sendTransaction(item)}>
-                {item.price} USMT
-              </button>
+              <img style={{ marginRight: 20 }} src={item?.photo} />
             </div>
-          );
-        })}
+            <div className={styles.column}>
+              <h2>{item?.title}</h2>
+              <p>{item?.body}</p>
+              <Button
+                type="primary"
+                disabled={user?.data?._id == item?.postedBy?._id}
+                onClick={() => sendTransaction(itemData)}
+              >
+                {item?.price} USMT
+              </Button>
+            </div>
+          </div>
+        ))
+      ) : (
+        <h2 className={styles.header1}>Loading...</h2>
+      )}
     </div>
   );
 };

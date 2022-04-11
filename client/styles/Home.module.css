@@ -70,6 +70,20 @@
   font-size: 1.5rem;
 }
 
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .code {
   background: #fafafa;
   border-radius: 5px;
@@ -129,5 +143,10 @@
   }
   .collapse {
     width: 300px;
+  }
+  .row {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }
