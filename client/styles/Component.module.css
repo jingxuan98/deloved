@@ -3,3 +3,22 @@
   color: #004aa2;
   font-size: 18px;
 }
+
+.profileContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 700px;
+  margin: 2rem auto;
+}
+
+.profileInner {
+  display: flex;
+  flex-direction: column;
+}
+
+.profileContainer img {
+  width: 100px;
+  border-radius: 50px;
+  margin: 0px 30px;
+}

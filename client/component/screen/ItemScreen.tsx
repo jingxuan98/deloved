@@ -96,7 +96,7 @@ const ItemScreen: React.FC<Props> = (props) => {
   };
 
   return (
-    <div className={styles.row}>
+    <div className={styles.itemRow}>
       {itemData ? (
         itemData.map((item) => (
           <div className={styles.row}>

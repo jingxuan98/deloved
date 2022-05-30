@@ -97,13 +97,16 @@ export default function Layout({ children }: LayoutProps) {
       case "profile":
         router.push(`/profile`);
         break;
+      case "create":
+        router.push(`/createPost`);
+        break;
       default:
         router.push(`/`);
     }
   };
 
   return (
-    <div>
+    <div className="layoutContainer">
       <Head>
         <title>Dreloved</title>
         <meta name="description" content="A Secondhand MarketPlace Dapp" />
@@ -113,6 +116,7 @@ export default function Layout({ children }: LayoutProps) {
         <img alt="logo" style={{ height: 40 }} src="/logo.png" />
         <Menu onClick={handleNav} selectedKeys={[current]} mode="horizontal">
           <Menu.Item key="home">Home</Menu.Item>
+          <Menu.Item key="create">Create</Menu.Item>
           <Menu.Item key="order">My Orders</Menu.Item>
           <Menu.Item key="profile">Profile</Menu.Item>
         </Menu>
