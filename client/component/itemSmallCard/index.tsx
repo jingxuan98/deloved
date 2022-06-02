@@ -1,10 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  TagOutlined,
-  EyeOutlined,
-} from "@ant-design/icons";
+import { TagOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Card, Avatar } from "antd";
 import { Props } from "./props";
 import { useRouter } from "next/router";
@@ -15,8 +10,8 @@ const fallback =
   "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty-300x240.jpg";
 
 const ItemSmallCard: React.FC<Props> = (props) => {
-  const { data } = props;
-  const { title, postedby, body, price, photo, _id } = data;
+  const { data, isDelete } = props;
+  const { title, postedBy, body, price, photo, _id } = data;
   const router = useRouter();
 
   return (
@@ -35,4 +30,5 @@ const ItemSmallCard: React.FC<Props> = (props) => {
     </Card>
   );
 };
+
 export default ItemSmallCard;

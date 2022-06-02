@@ -81,6 +81,24 @@
   width: 100%;
 }
 
+.columnItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  min-width: 330px;
+}
+
+.ownerItemContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ownerButton {
+  width: 48%;
+  margin: 30px 0px;
+}
+
 .row {
   display: flex;
   justify-content: center;

@@ -1,11 +1,13 @@
 import styles from "../../styles/Home.module.css";
 import { UserContext } from "../../pages/_app";
-import { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import { abi } from "./abi";
 import { Props } from "./props";
 import { Button } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
 
 // const web3 = new Web3(
 //   new Web3.providers.HttpProvider(
@@ -21,6 +23,7 @@ const ItemScreen: React.FC<Props> = (props) => {
   const [itemInnerData, setItemInnerData] = useState(null);
   const [txn, setTxn] = useState("");
   const [txnSuccess, setTxnSuccess] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const itemFetch = async () => {
@@ -95,6 +98,22 @@ const ItemScreen: React.FC<Props> = (props) => {
       });
   };
 
+  const deleteItem = async () => {
+    await fetch(`http://localhost:5002/deleteItem/${itemData[0]?._id}`, {
+      method: "delete",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        _id: itemData[0]?.postedBy?._id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        router.push(`/profile`);
+      });
+  };
+
   return (
     <div className={styles.itemRow}>
       {itemData ? (
@@ -103,7 +122,7 @@ const ItemScreen: React.FC<Props> = (props) => {
             <div>
               <img style={{ marginRight: 20 }} src={item?.photo} />
             </div>
-            <div className={styles.column}>
+            <div className={styles.columnItem}>
               <h2>{item?.title}</h2>
               <p>{item?.body}</p>
               <Button
@@ -113,6 +132,25 @@ const ItemScreen: React.FC<Props> = (props) => {
               >
                 {item?.price} USMT
               </Button>
+              {user?.data?._id == item?.postedBy?._id && (
+                <div className={styles.ownerItemContainer}>
+                  <Button
+                    className={styles.ownerButton}
+                    type="ghost"
+                    onClick={() => {}}
+                  >
+                    <EditOutlined /> Edit
+                  </Button>
+                  <Button
+                    className={styles.ownerButton}
+                    type="ghost"
+                    style={{ color: "red" }}
+                    onClick={deleteItem}
+                  >
+                    <DeleteOutlined /> Delete
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         ))

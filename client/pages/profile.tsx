@@ -33,7 +33,7 @@ export default function Profile() {
       <div className={styles.innerContainer}>
         {itemData ? (
           itemData.map((item) => {
-            return <ItemSmallCard data={item} />;
+            return <ItemSmallCard isDelete data={item} />;
           })
         ) : (
           <div>

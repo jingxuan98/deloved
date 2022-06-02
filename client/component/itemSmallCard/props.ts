@@ -19,4 +19,5 @@ export type Item = {
 
 export type Props = {
   data?: Item;
+  isDelete?: boolean;
 };
