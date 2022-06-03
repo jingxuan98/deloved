@@ -113,14 +113,23 @@ export default function Layout({ children }: LayoutProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.headerContainer}>
-        <img alt="logo" style={{ height: 40 }} src="/logo.png" />
-        <Menu onClick={handleNav} selectedKeys={[current]} mode="horizontal">
+        <img
+          alt="logo"
+          style={{ height: 40, margin: "10px 0px" }}
+          src="/logo.png"
+        />
+        <Menu
+          style={{ margin: "10px 0px" }}
+          onClick={handleNav}
+          selectedKeys={[current]}
+          mode="horizontal"
+        >
           <Menu.Item key="home">Home</Menu.Item>
           <Menu.Item key="create">Create</Menu.Item>
           <Menu.Item key="order">My Orders</Menu.Item>
           <Menu.Item key="profile">Profile</Menu.Item>
         </Menu>
-        <div>
+        <div style={{ margin: "10px 0px" }}>
           <Button
             className={styles.connectBtn}
             onClick={connect}

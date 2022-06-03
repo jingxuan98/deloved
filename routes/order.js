@@ -111,12 +111,13 @@ router.put("/updateOrder/:orderId", (req, res) => {
       $set: {
         trackingNo,
         courrierName,
+        status: "SHIPPED",
       },
     },
     { new: true },
     (err, result) => {
       if (err) {
-        return res.status(422).json({ error: "update error" });
+        return res.status(422).json({ message: "update error" });
       }
       res.json({ result, message: "Updated Successfully" });
     }

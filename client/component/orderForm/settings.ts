@@ -36,7 +36,16 @@ export const getFieldMeta = (props: Props) => {
               initialValue: data?.seller?.walletAdd,
             },
           ]),
-
+      {
+        key: "trackingNo",
+        label: "Tracking No",
+        initialValue: data?.trackingNo,
+      },
+      {
+        key: "courrierName",
+        label: "Courrier Name",
+        initialValue: data?.courrierName,
+      },
       {
         key: "txn",
         label: "Transaction Hash",

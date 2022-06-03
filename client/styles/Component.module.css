@@ -22,3 +22,13 @@
   border-radius: 50px;
   margin: 0px 30px;
 }
+
+.orderActionContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderActionButton {
+  width: 48%;
+  margin: 10px 0px;
+}

@@ -3,6 +3,9 @@
     width: 100%;
     flex-direction: column;
   }
+  .headerContainer {
+    flex-direction: column;
+  }
 }
 
 /*Header*/
@@ -11,7 +14,8 @@
   justify-content: space-between;
   border-bottom: 1px solid #f0f0f0;
   align-items: center;
-  padding: 15px;
+  padding: 10px 15px;
+  padding-bottom: 10px;
 }
 
 .connectBtn {
