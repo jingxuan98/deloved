@@ -18,11 +18,13 @@ app.use(cors());
 require("./models/user");
 require("./models/item");
 require("./models/order");
+require("./models/review");
 
 app.use(express.json());
 app.use(require("./routes/user"));
 app.use(require("./routes/item"));
 app.use(require("./routes/order"));
+app.use(require("./routes/review"));
 
 app.listen(PORT, () => {
   console.log("server is running", PORT);

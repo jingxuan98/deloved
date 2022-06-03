@@ -1,26 +1,20 @@
 import styles from "../../styles/Home.module.css";
 import { UserContext } from "../../pages/_app";
 import React, { useContext, useState, useEffect } from "react";
-import Web3 from "web3";
-import { AbiItem } from "web3-utils";
-import { abi } from "./abi";
 import { Props } from "./props";
-import { Button } from "antd";
+import { Comment, Tooltip, Avatar, Tabs } from "antd";
+import moment from "moment";
 import ItemSmallCard from "../itemSmallCard";
 import Profile from "../Profile";
-import { User } from "../Profile/props";
 
-// const web3 = new Web3(
-//   new Web3.providers.HttpProvider(
-//     "https://data-seed-prebsc-1-s1.binance.org:8545/"
-//   )
-// );
-const web3 = new Web3(window.ethereum);
+const { TabPane } = Tabs;
 
 const UserScreen: React.FC<Props> = (props) => {
   const { id } = props;
+  const [rating, setRating] = useState<any>(0);
   const [itemData, setItemData] = useState<any[]>([]);
   const [userData, setUserData] = useState<any[]>([]);
+  const [reviewData, setReviewData] = useState<any[]>([]);
 
   const [itemInnerData, setItemInnerData] = useState(null);
 
@@ -34,8 +28,25 @@ const UserScreen: React.FC<Props> = (props) => {
           setUserData(result.user);
         });
     };
+    const userReviewFetch = async () => {
+      await fetch(`http://localhost:5002/userReview/${id}`)
+        .then((res) => res.json())
+        .then((result) => {
+          console.log(result);
+          setReviewData(result.reviews);
+        });
+    };
     userFetch();
+    userReviewFetch();
   }, []);
+
+  useEffect(() => {
+    let sum = 0;
+    reviewData.forEach((review) => {
+      sum += review?.rating;
+    });
+    setRating(sum / reviewData.length);
+  }, [reviewData]);
 
   const renderItems = () => {
     return (
@@ -55,11 +66,49 @@ const UserScreen: React.FC<Props> = (props) => {
     );
   };
 
+  const renderReviews = () => {
+    console.log(reviewData);
+    return (
+      <div
+        style={{ flexDirection: "column" }}
+        className={styles.innerContainer}
+      >
+        {reviewData ? (
+          reviewData.map((review) => {
+            return (
+              <Comment
+                author={<a>{review.user.name || review.user.walletAdd}</a>}
+                avatar={<Avatar src={review.user.pic} alt="avatar" />}
+                content={<p>{review.message}</p>}
+                datetime={
+                  <Tooltip title={moment().format("YYYY-MM-DD")}>
+                    <span>{moment(review.createdAt).format("YYYY-MM-DD")}</span>
+                  </Tooltip>
+                }
+              />
+            );
+          })
+        ) : (
+          <div>
+            <h2 className={styles.header1}>User Have No Reviews Yet....</h2>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className={styles.container}>
-      <Profile data={userData} />
-      <h1 className={styles.header1}>Listed Items</h1>
-      {renderItems()}
+      <Profile data={userData} rating={rating} />
+      {/* <h1 className={styles.header1}>Listed Items</h1> */}
+      <Tabs defaultActiveKey="1" centered>
+        <TabPane tab="Items Listed" key="1">
+          {renderItems()}
+        </TabPane>
+        <TabPane tab="User Reviews" key="2">
+          <div>{renderReviews()}</div>
+        </TabPane>
+      </Tabs>
     </div>
   );
 };

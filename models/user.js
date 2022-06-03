@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema({
     default:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Faenza-avatar-default-symbolic.svg/1200px-Faenza-avatar-default-symbolic.svg.png",
   },
+  // rating: {
+  //   type: ObjectId,
+  //   ref: "Review",
+  // },
   _type: {
     type: String,
     enum: ["USER", "ADMIN"],

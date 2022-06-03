@@ -7,4 +7,5 @@ export type User = {
 
 export type Props = {
   data?: User;
+  rating?: Number;
 };
