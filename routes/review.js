@@ -10,6 +10,7 @@ router.get("/userReview/:id", async (req, res) => {
   Review.find({ user: ObjectId(req.params.id) })
     .populate("order.item", "title photo price")
     .populate("user", "_id walletAdd name pic")
+    .populate("postedBy", "_id walletAdd name pic")
     .sort("-createdAt")
     .then((reviews) => {
       res.json({ reviews, message: "User Reviews Found" });
@@ -20,7 +21,7 @@ router.get("/userReview/:id", async (req, res) => {
 });
 
 router.post("/createReview", (req, res) => {
-  const { orderId, message, userId, rating } = req.body;
+  const { orderId, message, userId, _id, rating } = req.body;
   if (!orderId || !userId || !rating) {
     res.status(422).json({
       message:
@@ -30,6 +31,7 @@ router.post("/createReview", (req, res) => {
   const review = new Review({
     order: orderId,
     message,
+    postedBy: _id,
     user: userId,
     rating,
   });
@@ -39,6 +41,7 @@ router.post("/createReview", (req, res) => {
     .then((review) => {
       res.json({
         review,
+        message: "Reviewed User Successful",
       });
     })
     .catch((err) => {

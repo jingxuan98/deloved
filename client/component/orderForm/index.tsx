@@ -10,6 +10,7 @@ import UpdateOrderForm from "../UpdateOrderForm";
 import styles from "../../styles/Component.module.css";
 import { Button, Form, Modal } from "antd";
 import getFieldMeta from "./settings";
+import ReviewForm from "../ReviewForm";
 
 const fallback =
   "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty-300x240.jpg";
@@ -21,13 +22,22 @@ const OrderForm: React.FC<Props> = (props) => {
   const [form] = Form.useForm();
 
   const [isOrderModalVisible, setIsOrderModalVisible] = useState(false);
+  const [isReviewModalVisible, setIsReviewModalVisible] = useState(false);
 
   const showOrderModal = () => {
     setIsOrderModalVisible(true);
   };
 
+  const showReviewModal = () => {
+    setIsReviewModalVisible(true);
+  };
+
   const closeOrderModal = () => {
     setIsOrderModalVisible(false);
+  };
+
+  const closeReviewModal = () => {
+    setIsReviewModalVisible(false);
   };
 
   const renderOrderModal = () => {
@@ -43,9 +53,28 @@ const OrderForm: React.FC<Props> = (props) => {
     );
   };
 
+  const renderReviewModal = () => {
+    return (
+      <Modal
+        maskClosable
+        footer={null}
+        title="Give User A Review"
+        visible={isReviewModalVisible}
+      >
+        <ReviewForm
+          closeModal={closeReviewModal}
+          _id={data?._id}
+          postedId={sell ? data?.seller?._id : data?.buyer?._id}
+          userId={sell ? data?.buyer?._id : data?.seller?._id}
+        />
+      </Modal>
+    );
+  };
+
   return (
     <Form form={form} layout="vertical">
       {renderOrderModal()}
+      {renderReviewModal()}
       <div style={{ width: "100%", textAlign: "center", margin: "10px 0px" }}>
         {mode === "view" && (
           <img style={{ width: 300 }} src={data?.item?.photo} alt="profile" />
@@ -59,12 +88,16 @@ const OrderForm: React.FC<Props> = (props) => {
             <Button onClick={showOrderModal} type="ghost">
               Update Order
             </Button>
-            <Button type="ghost">Review Buyer</Button>
+            <Button onClick={showReviewModal} type="ghost">
+              Review Buyer
+            </Button>
           </>
         ) : (
           <>
             <Button type="ghost">Release Funds</Button>
-            <Button type="ghost">Review Seller</Button>
+            <Button onClick={showReviewModal} type="ghost">
+              Review Seller
+            </Button>
           </>
         )}
       </div>

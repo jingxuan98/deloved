@@ -73,12 +73,14 @@ const UserScreen: React.FC<Props> = (props) => {
         style={{ flexDirection: "column" }}
         className={styles.innerContainer}
       >
-        {reviewData ? (
+        {reviewData.length != 0 ? (
           reviewData.map((review) => {
             return (
               <Comment
-                author={<a>{review.user.name || review.user.walletAdd}</a>}
-                avatar={<Avatar src={review.user.pic} alt="avatar" />}
+                author={
+                  <a>{review.postedBy.name || review.postedBy.walletAdd}</a>
+                }
+                avatar={<Avatar src={review.postedBy.pic} alt="avatar" />}
                 content={<p>{review.message}</p>}
                 datetime={
                   <Tooltip title={moment().format("YYYY-MM-DD")}>
