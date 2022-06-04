@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const Item = mongoose.model("Item");
 
 router.get("/allItems", (req, res) => {
-  Item.find()
+  Item.find({ status: "UNSOLD" })
     .populate("postedBy", "_id name")
     .populate("boughtBy", "_id name walletAdd")
     .sort("-createdAt")

@@ -75,15 +75,17 @@ export default function Layout({ children }: LayoutProps) {
       }
     };
     if (active) {
+      // fetchUser();
       connectWalletOnPageLoad();
     } else {
       setUser({});
     }
   }, [active]);
+  //#endregion
 
-  //   if (active) {
-  //     fetchUser();
-  //   }
+  useEffect(() => {
+    console.log(active);
+  }, []);
 
   const handleNav = (e) => {
     setCurrent(e.key);

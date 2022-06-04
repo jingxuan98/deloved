@@ -5,9 +5,10 @@ import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import { abi } from "./abi";
 import { Props } from "./props";
-import { Button } from "antd";
+import { Button, Modal } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
+import ShippingForm from "../ShippingForm";
 
 // const web3 = new Web3(
 //   new Web3.providers.HttpProvider(
@@ -23,6 +24,7 @@ const ItemScreen: React.FC<Props> = (props) => {
   const [itemInnerData, setItemInnerData] = useState(null);
   const [txn, setTxn] = useState("");
   const [txnSuccess, setTxnSuccess] = useState(false);
+  const [isShippingModalVisible, setIsShippingModalVisible] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -39,8 +41,36 @@ const ItemScreen: React.FC<Props> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (txnSuccess) createOrder(itemInnerData, txn);
+    // if (txnSuccess) createOrder(itemInnerData, txn);
+    if (txnSuccess) showShippingModal();
   }, [txnSuccess]);
+
+  const sumbitOrder = (values: any) => {
+    console.log(values);
+    createOrder(itemInnerData, values, txn);
+  };
+
+  const showShippingModal = () => {
+    setIsShippingModalVisible(true);
+  };
+
+  const closeShippingModal = () => {
+    setIsShippingModalVisible(false);
+  };
+
+  const renderShippingModal = () => {
+    return (
+      <Modal
+        maskClosable
+        footer={null}
+        onCancel={closeShippingModal}
+        title="Shipping Order Form"
+        visible={isShippingModalVisible}
+      >
+        <ShippingForm onSubmit={sumbitOrder} />
+      </Modal>
+    );
+  };
 
   const sendTransaction = async (item) => {
     setItemInnerData(item);
@@ -69,8 +99,17 @@ const ItemScreen: React.FC<Props> = (props) => {
       .on("error", console.error);
   };
 
-  const createOrder = (item, txn) => {
-    console.log(item, txn);
+  const createOrder = (item, values, txn) => {
+    console.log(item, values, txn);
+    const {
+      receiverName,
+      phone,
+      address1,
+      address2,
+      postcode,
+      state,
+      country,
+    } = values;
 
     fetch("http://localhost:5002/createOrder", {
       method: "post",
@@ -82,16 +121,19 @@ const ItemScreen: React.FC<Props> = (props) => {
         buyerId: user?.data?._id,
         sellerId: item[0]?.postedBy?._id,
         txn,
-        // address1,
-        // address2,
-        // postcode,
-        // state,
-        // country,
+        receiverName,
+        phone,
+        address1,
+        address2,
+        postcode,
+        state,
+        country,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        router.push(`/myOrders`);
       })
       .catch((err) => {
         console.log(err);
@@ -116,6 +158,7 @@ const ItemScreen: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.itemRow}>
+      {renderShippingModal()}
       {itemData ? (
         itemData.map((item) => (
           <div className={styles.row}>

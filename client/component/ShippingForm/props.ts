@@ -16,18 +16,13 @@ type data = {
   status?: "PROCESSING" | "COMPLETED" | "SHIPPED";
   trackingNo?: string;
   courrierName?: string;
-  createdAt?: string;
 };
 
 export type Props = {
   data?: data;
-  edit?: boolean;
-  mode?: string;
-  sell?: boolean;
+  onSubmit?: (values: any) => void;
+  closeModal?: () => void;
+  mode?: "update" | "create";
 };
 
-export const initialProps = {
-  edit: false,
-  mode: "create",
-  sell: false,
-};
+export const initialProps = { mode: "create" };

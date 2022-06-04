@@ -1,3 +1,4 @@
+import moment from "moment";
 import { Props } from "./props";
 
 export const getFieldMeta = (props: Props) => {
@@ -37,6 +38,41 @@ export const getFieldMeta = (props: Props) => {
             },
           ]),
       {
+        key: "receiverName",
+        label: "Receiver Name",
+        initialValue: data?.receiverName,
+      },
+      {
+        key: "phone",
+        label: "Receiver Phone",
+        initialValue: data?.phone,
+      },
+      {
+        key: "address1",
+        label: "Address Line 1",
+        initialValue: data?.address1,
+      },
+      {
+        key: "address2",
+        label: "Address Line 2",
+        initialValue: data?.address2,
+      },
+      {
+        key: "postcode",
+        label: "Postcode",
+        initialValue: data?.postcode,
+      },
+      {
+        key: "state",
+        label: "State",
+        initialValue: data?.state,
+      },
+      {
+        key: "country",
+        label: "Country",
+        initialValue: data?.country,
+      },
+      {
         key: "trackingNo",
         label: "Tracking No",
         initialValue: data?.trackingNo,
@@ -55,6 +91,11 @@ export const getFieldMeta = (props: Props) => {
         key: "status",
         label: "Status",
         initialValue: data?.status,
+      },
+      {
+        key: "createdAt",
+        label: "Order Created",
+        initialValue: moment(data?.createdAt, "YYYY-MM-DD"),
       },
     ],
   };

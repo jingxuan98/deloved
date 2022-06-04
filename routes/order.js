@@ -11,6 +11,8 @@ router.post("/createOrder", (req, res) => {
     buyerId,
     sellerId,
     txn,
+    receiverName,
+    phone,
     address1,
     address2,
     postcode,
@@ -32,6 +34,8 @@ router.post("/createOrder", (req, res) => {
       item: itemId,
       buyer: buyerId,
       seller: sellerId,
+      receiverName,
+      phone,
       txn,
       address1,
       address2,
@@ -54,12 +58,12 @@ router.post("/createOrder", (req, res) => {
       },
       (err, item) => {
         if (err) {
-          return res.status(422).json({ error: "update error" });
+          return res.status(422).json({ message: "Create Order Fail" });
         }
         order
           .save()
           .then((result) => {
-            res.json({ result, item, message: "Updated Successfully" });
+            res.json({ result, item, message: "Order Created Successfully" });
           })
           .catch((err) => {
             console.log(err);
@@ -112,6 +116,32 @@ router.put("/updateOrder/:orderId", (req, res) => {
         trackingNo,
         courrierName,
         status: "SHIPPED",
+      },
+    },
+    { new: true },
+    (err, result) => {
+      if (err) {
+        return res.status(422).json({ message: "update error" });
+      }
+      res.json({ result, message: "Updated Successfully" });
+    }
+  );
+});
+
+router.put("/updateShippingDetails/:orderId", (req, res) => {
+  const { receiverName, phone, address1, address2, postcode, state, country } =
+    req.body;
+  Order.findByIdAndUpdate(
+    req.params.orderId,
+    {
+      $set: {
+        receiverName,
+        phone,
+        address1,
+        address2,
+        postcode,
+        state,
+        country,
       },
     },
     { new: true },
