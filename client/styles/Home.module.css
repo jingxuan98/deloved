@@ -185,10 +185,17 @@
   max-width: 500px;
 }
 
+.searchBar {
+  max-width: 400px;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
     flex-direction: column;
+  }
+  .searchBar {
+    width: 300px;
   }
   .collapse {
     width: 300px;

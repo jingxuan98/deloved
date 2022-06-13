@@ -23,7 +23,7 @@ const ItemSmallCard: React.FC<Props> = (props) => {
   const { user, setUser } = useContext(UserContext);
   const { title, postedBy, body, price, photo, _id, likes } = itemData;
   const router = useRouter();
-  console.log(itemData);
+
   useEffect(() => {
     setLiked(false);
     likes?.map((id) => {

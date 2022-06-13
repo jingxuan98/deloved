@@ -29,6 +29,20 @@ router.get("/item/:id", (req, res) => {
     });
 });
 
+router.post("/search", (req, res) => {
+  let itemPattern = new RegExp("^.*" + req.body.query + ".*$");
+  Item.find({
+    title: { $regex: itemPattern, $options: "i" },
+    status: "UNSOLD",
+  })
+    .then((item) => {
+      res.json({ item });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 router.post("/myitem", (req, res) => {
   Item.find({
     postedBy: req.body._id,
