@@ -10,3 +10,7 @@ export type Props = {
   isUser?: boolean;
   rating?: Number;
 };
+
+export const initialProps = {
+  isUser: false,
+};

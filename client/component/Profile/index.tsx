@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { TagOutlined } from "@ant-design/icons";
 import { Card, Avatar, Modal, Button } from "antd";
-import { Props } from "./props";
+import { initialProps, Props } from "./props";
 import { useRouter } from "next/router";
 import styles from "../../styles/Component.module.css";
 import UpdateProfileForm from "../UpdateProfileForm";
@@ -10,7 +10,7 @@ const { Meta } = Card;
 const fallback =
   "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty-300x240.jpg";
 
-const ItemSmallCard: React.FC<Props> = (props) => {
+const ProfileCard: React.FC<Props> = (props) => {
   const { data, rating, isUser } = props;
   const [userData, setUserData] = useState(data);
   const router = useRouter();
@@ -20,6 +20,8 @@ const ItemSmallCard: React.FC<Props> = (props) => {
     setUserData(data);
     console.log(userData);
   }, [data]);
+
+  console.log(isUser);
 
   const showUserModal = () => {
     setIsUserModalVisible(true);
@@ -68,4 +70,5 @@ const ItemSmallCard: React.FC<Props> = (props) => {
     </>
   );
 };
-export default ItemSmallCard;
+export default ProfileCard;
+ProfileCard.defaultProps = initialProps;

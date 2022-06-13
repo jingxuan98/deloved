@@ -11,6 +11,7 @@ const { TabPane } = Tabs;
 
 const UserScreen: React.FC<Props> = (props) => {
   const { id } = props;
+  const { user, setUser } = useContext(UserContext);
   const [rating, setRating] = useState<any>(0);
   const [isUser, setIsUser] = useState(false);
   const [itemData, setItemData] = useState<any[]>([]);
@@ -27,7 +28,7 @@ const UserScreen: React.FC<Props> = (props) => {
           console.log(result);
           setItemData(result.item);
           setUserData(result.user);
-          if (result.user._id == id) {
+          if (result.user._id == user?.data?._id) {
             setIsUser(true);
           }
         });
