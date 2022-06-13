@@ -7,5 +7,6 @@ export type User = {
 
 export type Props = {
   data?: User;
+  isUser?: boolean;
   rating?: Number;
 };

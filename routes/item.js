@@ -44,6 +44,21 @@ router.post("/myitem", (req, res) => {
     });
 });
 
+router.get("/wishlist/:id", (req, res) => {
+  Item.find({
+    likes: { $in: req.params.id },
+  })
+    .populate("postedBy", "_id name walletAdd")
+    .then((likedItem) => {
+      res.json({
+        likedItem,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 router.post("/createItem", (req, res) => {
   const { title, body, photo, status, price, catogery } = req.body;
   if (!title || !body || !price || !catogery) {
@@ -116,11 +131,11 @@ router.put("/updateItem/:itemId", (req, res) => {
   );
 });
 
-router.put("/like", (req, res) => {
+router.put("/like/:id", (req, res) => {
   Item.findByIdAndUpdate(
-    req.body.postId,
+    req.params.id,
     {
-      $push: { likes: req.body._id },
+      $push: { likes: req.body.userId },
     },
     {
       new: true,
@@ -129,18 +144,18 @@ router.put("/like", (req, res) => {
     .populate("postedBy", "_id name walletAdd")
     .exec((err, result) => {
       if (err) {
-        return res.status(422).json({ error: err });
+        return res.status(422).json({ message: err });
       } else {
         res.json(result);
       }
     });
 });
 
-router.put("/unlike", (req, res) => {
+router.put("/unlike/:id", (req, res) => {
   Item.findByIdAndUpdate(
-    req.body.postId,
+    req.params.id,
     {
-      $pull: { likes: req.body._id },
+      $pull: { likes: req.body.userId },
     },
     {
       new: true,
@@ -149,7 +164,7 @@ router.put("/unlike", (req, res) => {
     .populate("postedBy", "_id name walletAdd")
     .exec((err, result) => {
       if (err) {
-        return res.status(422).json({ error: err });
+        return res.status(422).json({ message: err });
       } else {
         res.json(result);
       }

@@ -1,9 +1,16 @@
 import { useContext, useState, useEffect } from "react";
-import { TagOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Card, Avatar } from "antd";
+import { UserContext } from "../../pages/_app";
+import {
+  TagOutlined,
+  EyeOutlined,
+  HeartOutlined,
+  HeartFilled,
+} from "@ant-design/icons";
+import { Card, Avatar, notification } from "antd";
 import { Props } from "./props";
 import { useRouter } from "next/router";
 import styles from "../../styles/Component.module.css";
+import { isCallLikeExpression } from "typescript";
 
 const { Meta } = Card;
 const fallback =
@@ -11,22 +18,94 @@ const fallback =
 
 const ItemSmallCard: React.FC<Props> = (props) => {
   const { data, isDelete } = props;
-  const { title, postedBy, body, price, photo, _id } = data;
+  const [itemData, setItemData] = useState(data);
+  const [liked, setLiked] = useState(false);
+  const { user, setUser } = useContext(UserContext);
+  const { title, postedBy, body, price, photo, _id, likes } = itemData;
   const router = useRouter();
+  console.log(itemData);
+  useEffect(() => {
+    setLiked(false);
+    likes?.map((id) => {
+      if (user?.data?._id === id) {
+        setLiked(true);
+      }
+    });
+  }, [itemData, user]);
+
+  const like = async () => {
+    await fetch(`http://localhost:5002/like/${_id}`, {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user?.data?._id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setItemData(result);
+      });
+  };
+
+  const unlike = async () => {
+    await fetch(`http://localhost:5002/unlike/${_id}`, {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user?.data?._id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setItemData(result);
+      });
+  };
 
   return (
     <Card
-      onClick={() => router.push(`/item/${_id}`)}
       hoverable
       style={{ width: 300, margin: 15 }}
-      cover={<img alt="example" src={photo || fallback} />}
+      cover={
+        <img
+          style={{ cursor: "pointer" }}
+          onClick={() => router.push(`/item/${_id}`)}
+          alt="example"
+          src={photo || fallback}
+        />
+      }
       actions={[
-        <div className={styles.cardPrice}>
+        <div
+          className={styles.cardPrice}
+          style={{ color: "red" }}
+          onClick={() => {
+            liked ? unlike() : like();
+          }}
+        >
+          {liked ? (
+            <HeartFilled key="like" style={{ marginRight: 10 }} />
+          ) : (
+            <HeartOutlined key="like" style={{ marginRight: 10 }} />
+          )}
+          Wishlist
+        </div>,
+        <div
+          onClick={() => router.push(`/item/${_id}`)}
+          className={styles.cardPrice}
+        >
           <TagOutlined key="price" style={{ marginRight: 10 }} /> {price} USMT
         </div>,
       ]}
     >
-      <Meta title={title} description={body} />
+      <div
+        style={{ cursor: "pointer", padding: 24 }}
+        onClick={() => router.push(`/item/${_id}`)}
+      >
+        <Meta title={title} description={body} />
+      </div>
     </Card>
   );
 };

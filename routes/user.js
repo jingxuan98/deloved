@@ -80,7 +80,7 @@ router.put("/updatepic", (req, res) => {
 router.put("/update", (req, res) => {
   User.findByIdAndUpdate(
     req.body._id,
-    { $set: { name: req.body.name } },
+    { $set: { name: req.body.name, pic: req.body.pic } },
     { new: true },
     (err, result) => {
       if (err) {

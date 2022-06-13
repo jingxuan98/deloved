@@ -2,6 +2,12 @@
   font-weight: 700;
   color: #004aa2;
   font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.cardPrice:hover {
+  transform: scale(1.05);
 }
 
 .profileContainer {

@@ -12,6 +12,7 @@ const { TabPane } = Tabs;
 const UserScreen: React.FC<Props> = (props) => {
   const { id } = props;
   const [rating, setRating] = useState<any>(0);
+  const [isUser, setIsUser] = useState(false);
   const [itemData, setItemData] = useState<any[]>([]);
   const [userData, setUserData] = useState<any[]>([]);
   const [reviewData, setReviewData] = useState<any[]>([]);
@@ -26,6 +27,9 @@ const UserScreen: React.FC<Props> = (props) => {
           console.log(result);
           setItemData(result.item);
           setUserData(result.user);
+          if (result.user._id == id) {
+            setIsUser(true);
+          }
         });
     };
     const userReviewFetch = async () => {
@@ -101,7 +105,7 @@ const UserScreen: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.container}>
-      <Profile data={userData} rating={rating} />
+      <Profile isUser={isUser} data={userData} rating={rating} />
       {/* <h1 className={styles.header1}>Listed Items</h1> */}
       <Tabs defaultActiveKey="1" centered>
         <TabPane tab="Items Listed" key="1">
