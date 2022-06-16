@@ -107,15 +107,15 @@ router.post(`/chatRoomSend/:id`, async (req, res) => {
 });
 
 router.post("/getRoomChats/:id", (req, res) => {
-  const { sender, receiver } = req.body;
+  //   const { sender, receiver } = req.body;
 
-  if (!sender || !receiver) {
-    res.status(422).json({
-      message: "Please make sure you have both User IDs",
-    });
-  }
-  ChatRoom.findOne({ _id: req.params.id, users: { $all: [sender, receiver] } })
-    .populate("chats")
+  //   if (!sender || !receiver) {
+  //     res.status(422).json({
+  //       message: "Please make sure you have both User IDs",
+  //     });
+  //   }
+  ChatRoom.findOne({ _id: req.params.id })
+    .populate("chats users")
     .exec((err, chats) => {
       if (err) {
         return res.status(422).json({ message: err });
@@ -135,6 +135,14 @@ router.get("/getUserChatRooms/:id", (req, res) => {
         model: "Chat",
         options: { sort: "-updatedAt" },
         limit: 1,
+      },
+    })
+    .populate({
+      path: "chatRooms",
+      options: { sort: "-updatedAt" },
+      populate: {
+        path: "users",
+        model: "User",
       },
     })
     .then((chatRooms) => {

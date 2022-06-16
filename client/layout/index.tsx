@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import Head from "next/head";
-import Image from "next/image";
+import { MessageOutlined } from "@ant-design/icons";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { useWeb3React } from "@web3-react/core";
 import { UserContext } from "../pages/_app";
 import Router, { useRouter } from "next/router";
-import { Button, Menu } from "antd";
+import { Button, Menu, Modal } from "antd";
 import styles from "../styles/Layout.module.css";
 import router from "next/router";
+import ChatList from "../component/chatList";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -25,6 +26,46 @@ export default function Layout({ children }: LayoutProps) {
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
   const [current, setCurrent] = useState("home");
+  const [isChatListModalVisible, setIsChatListModalVisible] = useState(false);
+  const [chatRoomData, setChatRoomData] = useState([]);
+
+  const fetchUserChatRooms = async () => {
+    setChatRoomData([]);
+    await fetch(`http://localhost:5002/getUserChatRooms/${user?.data?._id}`, {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        const { chatRooms } = result;
+        setChatRoomData(chatRooms.chatRooms);
+      });
+  };
+
+  const showChatListModal = async () => {
+    await fetchUserChatRooms();
+    setIsChatListModalVisible(true);
+  };
+
+  const closeChatListModal = () => {
+    setIsChatListModalVisible(false);
+  };
+
+  const renderChatListModal = () => {
+    return (
+      <Modal
+        maskClosable
+        footer={null}
+        onCancel={closeChatListModal}
+        title="My Messages"
+        visible={isChatListModalVisible}
+      >
+        <ChatList data={chatRoomData} />
+      </Modal>
+    );
+  };
 
   const fetchUser = async () => {
     await fetch("http://localhost:5002/register", {
@@ -115,23 +156,31 @@ export default function Layout({ children }: LayoutProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.headerContainer}>
+        {renderChatListModal()}
         <img
           alt="logo"
           style={{ height: 40, margin: "10px 0px" }}
           src="/logo.png"
         />
-        <Menu
-          style={{ margin: "10px 0px" }}
-          onClick={handleNav}
-          selectedKeys={[current]}
-          mode="horizontal"
-        >
-          <Menu.Item key="home">Home</Menu.Item>
-          <Menu.Item key="create">Create</Menu.Item>
-          <Menu.Item key="order">My Orders</Menu.Item>
-          <Menu.Item key="profile">Profile</Menu.Item>
-        </Menu>
-        <div style={{ margin: "10px 0px" }}>
+
+        <div className={styles.headerSide}>
+          <Menu
+            style={{ marginRight: 10 }}
+            onClick={handleNav}
+            selectedKeys={[current]}
+            mode="horizontal"
+          >
+            <Menu.Item key="home">Home</Menu.Item>
+            <Menu.Item key="create">Create</Menu.Item>
+            <Menu.Item key="order">My Orders</Menu.Item>
+            <Menu.Item key="profile">Profile</Menu.Item>
+          </Menu>
+          {active && (
+            <MessageOutlined
+              onClick={showChatListModal}
+              className={styles.chatIcon}
+            />
+          )}
           <Button
             className={styles.connectBtn}
             onClick={connect}

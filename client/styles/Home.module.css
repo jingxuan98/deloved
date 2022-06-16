@@ -189,6 +189,68 @@
   max-width: 400px;
 }
 
+/*ChatPage*/
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 550px;
+  min-width: 500px;
+  padding: 30px 10px;
+}
+
+.chatMessagesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.chatReceived {
+  background-color: gainsboro;
+  border-radius: 15px;
+  padding: 5px 10px;
+  margin: 10px 5px;
+  color: black;
+  align-self: flex-start;
+  max-width: 75%;
+}
+
+.chatInput {
+  width: 100%;
+}
+
+.sendIcon {
+  color: #fff;
+}
+.sendButton:hover .sendIcon {
+  color: #004aae;
+}
+
+.sendButton {
+  margin: 3px;
+  border-radius: 50px;
+  background: #004aae;
+}
+
+.chatInputFormItem {
+  display: flex;
+}
+
+.chatSent {
+  background-color: #0070f3;
+  border-radius: 15px;
+  padding: 5px 10px;
+  margin: 10px 5px;
+
+  color: white;
+  align-self: flex-end;
+  max-width: 75%;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
