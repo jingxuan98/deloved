@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema(
       enum: ["USER", "ADMIN"],
       default: "USER",
     },
+    chatRooms: [{ type: ObjectId, ref: "ChatRoom" }],
   },
   { timestamps: true }
 );
