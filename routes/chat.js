@@ -27,7 +27,7 @@ router.post("/chatRoom", (req, res) => {
 
         await chatRoomSaved
           .populate("users chats")
-          .then((chatroom) => {
+          .then((chatRoom) => {
             User.findByIdAndUpdate(
               sender,
               {
@@ -55,7 +55,7 @@ router.post("/chatRoom", (req, res) => {
               }
             });
             res.json({
-              chatroom,
+              chatRoom,
               message: "Chat Room Created",
             });
           })

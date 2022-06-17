@@ -23,7 +23,6 @@ const ProfileCard: React.FC<Props> = (props) => {
 
   useEffect(() => {
     setUserData(data);
-    console.log(userData);
   }, [data]);
 
   const chatRoomSearch = async () => {

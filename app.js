@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const PORT = 5002;
 const { MONGOURI } = require("./keys");
+const socket = require("socket.io");
 
 mongoose.connect(MONGOURI);
 mongoose.connection.on("connected", () => {
@@ -29,6 +30,28 @@ app.use(require("./routes/order"));
 app.use(require("./routes/review"));
 app.use(require("./routes/chat"));
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log("server is running", PORT);
+});
+
+const io = socket(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    credentials: true,
+  },
+});
+
+global.onlineUsers = new Map();
+io.on("connection", (socket) => {
+  global.chatSocket = socket;
+  socket.on("add-user", (userId) => {
+    onlineUsers.set(userId, socket.id);
+  });
+
+  socket.on("send-msg", (data) => {
+    const sendUserSocket = onlineUsers.get(data.receiver);
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("msg-recieve", data);
+    }
+  });
 });

@@ -68,6 +68,7 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   const fetchUser = async () => {
+    console.log(account);
     await fetch("http://localhost:5002/register", {
       method: "post",
       headers: {
@@ -84,11 +85,17 @@ export default function Layout({ children }: LayoutProps) {
         setUser({ ...user, data });
       });
   };
+  //#endregion
+  useEffect(() => {
+    if (account) {
+      fetchUser();
+    }
+  }, [account]);
 
   async function connect() {
     try {
       await activate(injected);
-      await fetchUser();
+      // await fetchUser();
     } catch (ex) {
       console.log(ex);
     }
@@ -123,10 +130,6 @@ export default function Layout({ children }: LayoutProps) {
     }
   }, [active]);
   //#endregion
-
-  useEffect(() => {
-    console.log(active);
-  }, []);
 
   const handleNav = (e) => {
     setCurrent(e.key);

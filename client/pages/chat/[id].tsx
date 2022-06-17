@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import styles from "../../styles/Home.module.css";
 import { UserContext } from "../_app";
 import { Input, Form, Button } from "antd";
@@ -6,16 +6,21 @@ import Profile from "../../component/Profile";
 import { useRouter } from "next/router";
 import { User } from "../../component/Profile/props";
 import { SendOutlined } from "@ant-design/icons";
+import { io } from "socket.io-client";
 
 const { TextArea } = Input;
 
 export default function ChatPage() {
   const { user, setUser } = useContext(UserContext);
+  const socket = useRef();
+  const scrollRef = useRef();
   const router = useRouter();
   const [form] = Form.useForm();
   const { id } = router.query;
   const [chatData, setChatData] = useState([]);
   const [messagesData, setMessagesData] = useState([]);
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [textValue, setTextValue] = useState(null);
   const [senderData, setSenderData] = useState<User>(null);
 
   useEffect(() => {
@@ -36,11 +41,19 @@ export default function ChatPage() {
   }, [user, id]);
 
   useEffect(() => {
+    if (user?.data) {
+      socket.current = io("http://localhost:5002");
+      socket.current.emit("add-user", user?.data._id);
+    }
+  }, [user]);
+
+  useEffect(() => {
     if (chatData && user?.data) {
       chatData?.users &&
         chatData?.users.map((chatUser) => {
           if (chatUser._id != user?.data?._id) {
             setSenderData({ ...chatUser });
+            msgReceive(chatUser._id);
           }
         });
       setMessagesData(chatData?.chats);
@@ -48,7 +61,6 @@ export default function ChatPage() {
   }, [chatData]);
 
   const onFinish = async (values: any) => {
-    console.log(values.message);
     await fetch(`http://localhost:5002/chatRoomSend/${id}`, {
       method: "post",
       headers: {
@@ -57,14 +69,43 @@ export default function ChatPage() {
       body: JSON.stringify({
         sender: user?.data?._id,
         receiver: senderData?._id,
-        text: values.message,
+        text: textValue,
       }),
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
+        form.resetFields();
       });
+
+    socket.current.emit("send-msg", {
+      sender: user?.data?._id,
+      receiver: senderData?._id,
+      text: textValue,
+    });
+
+    const msgs = [...messagesData];
+    msgs.push({ sender: user?.data?._id, message: { text: textValue } });
+    setMessagesData(msgs);
   };
+
+  const msgReceive = (id: string | string[]) => {
+    if (socket.current) {
+      socket.current.on("msg-recieve", (data) => {
+        setArrivalMessage({
+          sender: data.sender,
+          message: { text: data.text },
+        });
+      });
+    }
+  };
+
+  useEffect(() => {
+    arrivalMessage && setMessagesData((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage]);
+
+  useEffect(() => {
+    scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messagesData]);
 
   return (
     <div className={styles.container}>
@@ -84,6 +125,7 @@ export default function ChatPage() {
 
                   return (
                     <div
+                      ref={scrollRef}
                       className={
                         sendByMe ? styles.chatReceived : styles.chatSent
                       }
@@ -109,7 +151,16 @@ export default function ChatPage() {
             <div className={styles.chatInput}>
               <Form className="chatForm" form={form} onFinish={onFinish}>
                 <Form.Item name="message">
-                  <TextArea rows={2} placeholder="Type your message...." />
+                  <TextArea
+                    value={textValue}
+                    onPressEnter={onFinish}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setTextValue(e.target.value);
+                    }}
+                    rows={2}
+                    placeholder="Type your message...."
+                  />
                 </Form.Item>
                 <Button htmlType="submit" className={styles.sendButton}>
                   <SendOutlined className={styles.sendIcon} />

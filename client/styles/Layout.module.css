@@ -6,6 +6,9 @@
   .headerContainer {
     flex-direction: column;
   }
+  .headerSide {
+    flex-direction: column;
+  }
 }
 
 /*Header*/

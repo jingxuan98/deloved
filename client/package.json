@@ -20,6 +20,7 @@
     "next-plugin-antd-less": "^1.8.0",
     "react": "18.0.0",
     "react-dom": "18.0.0",
+    "socket.io-client": "^4.5.1",
     "typescript": "^4.6.3",
     "web3": "^1.7.1"
   },
