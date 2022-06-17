@@ -9,7 +9,7 @@ export type Props = {
   data?: User;
   isUser?: boolean;
   showChatBtn?: boolean;
-  rating?: Number;
+  rating?: number;
 };
 
 export const initialProps = {

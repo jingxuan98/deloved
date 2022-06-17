@@ -90,7 +90,7 @@ const ProfileCard: React.FC<Props> = (props) => {
         <div className="profileInner">
           <h4>{userData?.walletAdd}</h4>
           <h4>{userData?.name}</h4>
-          {rating && <h4>{rating.toFixed(2) || 0}⭐</h4>}
+          {!isNaN(rating) && <h4>{rating?.toFixed(2) || 0}⭐</h4>}
         </div>
         <div className={styles.profileButtonContainer}>
           {isUser && (
@@ -98,7 +98,7 @@ const ProfileCard: React.FC<Props> = (props) => {
               Edit Profile
             </Button>
           )}
-          {user?.data && showChatBtn && (
+          {user?.data && showChatBtn && !isUser && (
             <Button
               onClick={() => {
                 setIsChatRoomVisible(true);
