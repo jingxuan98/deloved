@@ -8,9 +8,11 @@ export type User = {
 export type Props = {
   data?: User;
   isUser?: boolean;
+  showChatBtn?: boolean;
   rating?: Number;
 };
 
 export const initialProps = {
   isUser: false,
+  showChatBtn: true,
 };

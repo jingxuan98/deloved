@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import styles from "../../styles/Component.module.css";
 import moment from "moment";
 import { User } from "../Profile/props";
+import Loader from "../Loader";
 
 const fallback =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Faenza-avatar-default-symbolic.svg/1200px-Faenza-avatar-default-symbolic.svg.png";
@@ -73,20 +74,33 @@ const ChatList: React.FC<Props> = (props) => {
           });
 
           return (
-            <Comment
-              author={<a>{chatSender?.name || chatSender?.walletAdd}</a>}
-              avatar={<Avatar src={chatSender.pic || fallback} alt="avatar" />}
-              content={
-                chats[0] ? <p>{chats[0].message.text}</p> : `Say your First HI!`
-              }
-              datetime={
-                <span>
-                  {chats[0]
-                    ? moment(chats[0].createdAt).format("DD-MM-YYYY hh:mm")
-                    : ``}
-                </span>
-              }
-            />
+            <div
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                router.replace(`/chat/${chatRoom._id}`);
+              }}
+            >
+              <Comment
+                author={<a>{chatSender?.name || chatSender?.walletAdd}</a>}
+                avatar={
+                  <Avatar src={chatSender?.pic || fallback} alt="avatar" />
+                }
+                content={
+                  chats[0] ? (
+                    <p>{chats[0].message.text}</p>
+                  ) : (
+                    `Say your First HI!`
+                  )
+                }
+                datetime={
+                  <span>
+                    {chats[0]
+                      ? moment(chats[0].createdAt).format("DD-MM-YYYY hh:mm")
+                      : ``}
+                  </span>
+                }
+              />
+            </div>
           );
         })
       ) : (

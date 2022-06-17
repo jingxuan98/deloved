@@ -19,7 +19,6 @@ const UserScreen: React.FC<Props> = (props) => {
   const [reviewData, setReviewData] = useState<any[]>([]);
 
   const [itemInnerData, setItemInnerData] = useState(null);
-
   useEffect(() => {
     const userFetch = async () => {
       await fetch(`http://localhost:5002/user/${id}`)
@@ -41,8 +40,10 @@ const UserScreen: React.FC<Props> = (props) => {
           setReviewData(result.reviews);
         });
     };
-    userFetch();
-    userReviewFetch();
+    if (id) {
+      userFetch();
+      userReviewFetch();
+    }
   }, []);
 
   useEffect(() => {

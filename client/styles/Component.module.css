@@ -23,6 +23,14 @@
   flex-direction: column;
 }
 
+.profileButtonContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 10px;
+}
+
 .profileContainer img {
   width: 100px;
   border-radius: 50px;

@@ -15,6 +15,7 @@ export default function ChatPage() {
   const [form] = Form.useForm();
   const { id } = router.query;
   const [chatData, setChatData] = useState([]);
+  const [messagesData, setMessagesData] = useState([]);
   const [senderData, setSenderData] = useState<User>(null);
 
   useEffect(() => {
@@ -32,15 +33,17 @@ export default function ChatPage() {
     };
 
     if (user?.data) fetchChatRoomChats();
-  }, [user]);
+  }, [user, id]);
 
   useEffect(() => {
-    if (chatData != [] && user?.data) {
-      chatData?.users.map((chatUser) => {
-        if (chatUser._id != user?.data?._id) {
-          setSenderData({ ...chatUser });
-        }
-      });
+    if (chatData && user?.data) {
+      chatData?.users &&
+        chatData?.users.map((chatUser) => {
+          if (chatUser._id != user?.data?._id) {
+            setSenderData({ ...chatUser });
+          }
+        });
+      setMessagesData(chatData?.chats);
     }
   }, [chatData]);
 
@@ -71,11 +74,11 @@ export default function ChatPage() {
         </h2>
       ) : (
         <>
-          <Profile data={senderData} />
+          <Profile data={senderData} showChatBtn={false} />
           <div className={styles.chatContainer}>
             <div className={styles.chatMessagesContainer}>
-              {chatData?.chats ? (
-                chatData?.chats.map((chat) => {
+              {messagesData && messagesData.length != 0 ? (
+                messagesData.map((chat) => {
                   const { message, sender } = chat;
                   let sendByMe = sender != user?.data?._id;
 
@@ -90,8 +93,12 @@ export default function ChatPage() {
                   );
                 })
               ) : (
-                <div className={styles.chatContainer}>
-                  <h2 className={styles.header1}>
+                <div className={styles.chatContainerFlex}>
+                  <img
+                    style={{ width: 100, height: 100, margin: "0px 10px" }}
+                    src="https://images.vexels.com/media/users/3/206062/isolated/preview/d0de78df943ea9b630c87ec98cf902ef-hi-speech-bubble-doodle.png"
+                  />
+                  <h2 style={{ marginTop: 0 }} className={styles.header1}>
                     Say "Hi"
                     <br />
                     Start A Conversation
