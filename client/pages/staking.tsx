@@ -171,12 +171,12 @@ export default function Staking() {
           <p>USMT Rewards Balance: {stakedYieldBalance}</p>
 
           <div>
-            <Button type="primary" onClick={onUnstake}>
+            {/* <Button type="primary" onClick={onUnstake}>
               Unstake
             </Button>
             <Button type="primary" onClick={onWithdraw}>
               Withdraw
-            </Button>
+            </Button> */}
             <Button type="primary" onClick={showStakeModal}>
               Stake/Top Up
             </Button>
