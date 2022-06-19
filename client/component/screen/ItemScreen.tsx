@@ -10,15 +10,16 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import ShippingForm from "../ShippingForm";
 
-// const web3 = new Web3(
+// export const web3 = new Web3(
 //   new Web3.providers.HttpProvider(
 //     "https://data-seed-prebsc-1-s1.binance.org:8545/"
 //   )
 // );
-const web3 = new Web3(window.ethereum);
+declare var window: any;
 
 const ItemScreen: React.FC<Props> = (props) => {
   const { id } = props;
+  const web3 = new Web3(Web3.givenProvider);
   const { user, setUser } = useContext(UserContext);
   const [itemData, setItemData] = useState<any[]>([]);
   const [itemInnerData, setItemInnerData] = useState(null);
