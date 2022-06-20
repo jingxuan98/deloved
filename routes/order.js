@@ -77,6 +77,7 @@ router.post("/myOrders", (req, res) => {
   Order.find({
     buyer: req.body._id,
   })
+    .sort("-createdAt")
     .populate("item", "_id title photo price")
     .populate("buyer", "_id name walletAdd")
     .populate("seller", "_id name walletAdd")
@@ -94,6 +95,7 @@ router.post("/mySold", (req, res) => {
   Order.find({
     seller: req.body._id,
   })
+    .sort("-createdAt")
     .populate("item", "_id title photo price")
     .populate("buyer", "_id name walletAdd")
     .populate("seller", "_id name walletAdd")

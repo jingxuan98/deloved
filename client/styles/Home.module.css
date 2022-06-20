@@ -14,10 +14,12 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  margin-bottom: 2rem;
 }
 
 .header1 {
   margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .main {
@@ -259,6 +261,31 @@
   color: white;
   align-self: flex-end;
   max-width: 75%;
+}
+
+.catogeryBtn {
+  border-radius: 30px;
+  margin-right: 10px;
+  margin-top: 1rem;
+}
+
+.catoContainer {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.paymentSelectBtn {
+  border-radius: 10px;
+  width: 100%;
+  border: 1px solid gainsboro;
+  padding: 5px;
+  cursor: pointer;
+  padding: 10px;
+  margin: 10px 0px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
 }
 
 @media (max-width: 600px) {

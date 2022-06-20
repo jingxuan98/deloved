@@ -4,7 +4,7 @@ import React, { useContext, useState, useEffect } from "react";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 // import { web3 } from "../component/screen/ItemScreen";
-import { tokenABI, stakingABI } from "./abi";
+import { tokenABI, stakingABI } from "../helper/abi";
 import { getBalanceNumber } from "../helper/formatbalance";
 import { Button, Form, Input, InputNumber, Modal, notification } from "antd";
 import FormBuilder from "antd-form-builder";

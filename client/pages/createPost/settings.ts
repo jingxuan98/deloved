@@ -1,6 +1,16 @@
 import { InputNumber, Select } from "antd";
 // import { Props } from "./props";
 
+export const catogeries = [
+  { value: "Services", label: "Services" },
+  { value: "Supplements", label: "Supplements" },
+  { value: "Electronics", label: "Electronics" },
+  { value: "Medical Supplies", label: "Medical Supplies" },
+  { value: "Furnitures", label: "Furnitures" },
+  { value: "Beauty & Cosmectics", label: "Beauty & Cosmectics" },
+  { value: "Weapons", label: "Weapons" },
+];
+
 export const getFieldMeta = () => {
   // const { data, sell } = props;
 
@@ -51,10 +61,7 @@ export const getFieldMeta = () => {
         label: "Catogery",
         widget: Select,
         placeholder: "Click To Select",
-        options: [
-          { value: "Weapons", label: "Weapons" },
-          { value: "Medical", label: "Medical" },
-        ],
+        options: catogeries,
       },
     ],
   };

@@ -25,7 +25,7 @@ export default function Layout({ children }: LayoutProps) {
     useWeb3React();
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
-  const [current, setCurrent] = useState("home");
+  const [current, setCurrent] = useState("");
   const [isChatListModalVisible, setIsChatListModalVisible] = useState(false);
   const [chatRoomData, setChatRoomData] = useState([]);
 
@@ -157,13 +157,19 @@ export default function Layout({ children }: LayoutProps) {
         <title>Dreloved</title>
         <meta name="description" content="A Secondhand MarketPlace Dapp" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <div className={styles.headerContainer}>
         {renderChatListModal()}
         <img
           alt="logo"
-          style={{ height: 40, margin: "10px 0px" }}
-          src="/logo.png"
+          style={{ height: 55, margin: "10px 0px", marginLeft: "50px" }}
+          src="/newLogo.png"
         />
 
         <div className={styles.headerSide}>

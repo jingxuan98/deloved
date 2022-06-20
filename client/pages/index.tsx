@@ -6,6 +6,7 @@ import ItemSmallCard from "../component/itemSmallCard";
 import type { MenuProps } from "antd";
 import { Input, Form, Dropdown, Button, Space, Menu } from "antd";
 import { DownOutlined, SearchOutlined } from "@ant-design/icons";
+import { catogeries } from "./createPost/settings";
 
 const { Search } = Input;
 
@@ -18,8 +19,6 @@ export default function Home() {
   const [sortOpt, setSortOpt] = useState("");
   const [sortOrder, setSortOrder] = useState(0);
   const [sortDisplay, setSortDisplay] = useState("By Popularity");
-
-  console.log(itemData);
 
   useEffect(() => {
     setItemData([]);
@@ -127,7 +126,7 @@ export default function Home() {
     <Menu
       onClick={handleMenuClick}
       selectable
-      // defaultSelectedKeys={["1"]}
+      defaultSelectedKeys={["1"]}
       items={[
         {
           label: "By Popularity",
@@ -155,7 +154,23 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.header1}>Popular Items</h1>
+      <div className={styles.catoContainer}>
+        <Button className={styles.catogeryBtn} onClick={() => setCatogery("")}>
+          Featured
+        </Button>
+        {catogeries.map((catogery) => {
+          return (
+            <Button
+              className={styles.catogeryBtn}
+              key={catogery.label}
+              onClick={() => setCatogery(catogery.value)}
+            >
+              {catogery.label}
+            </Button>
+          );
+        })}
+      </div>
+      <h1 className={styles.header1}>Dreloved Items</h1>
       <div style={{ width: "100%", textAlign: "center" }}>
         <Search
           className={styles.searchBar}

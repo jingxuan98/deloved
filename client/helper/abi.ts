@@ -406,3 +406,16 @@ export const stakingABI = [
     type: "function",
   },
 ];
+
+export const busdABI = [
+  {
+    inputs: [
+      { internalType: "address", name: "_to", type: "address" },
+      { internalType: "uint256", name: "_value", type: "uint256" },
+    ],
+    name: "transfer",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
