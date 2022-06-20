@@ -4,10 +4,12 @@ const mongoose = require("mongoose");
 const Item = mongoose.model("Item");
 
 router.get("/allItems", (req, res) => {
-  Item.find({ status: "UNSOLD" })
+  Item.find({
+    // status: "UNSOLD"
+  })
     .populate("postedBy", "_id name")
     .populate("boughtBy", "_id name walletAdd")
-    .sort("-createdAt")
+    .sort({ viewCount: -1 })
     .then((items) => {
       res.json({ items });
     })
@@ -16,11 +18,61 @@ router.get("/allItems", (req, res) => {
     });
 });
 
+router.post("/allItemsSort", (req, res) => {
+  const { order, field, query, catogery } = req.body;
+  let findFilter;
+
+  if (catogery == "") {
+    findFilter = {
+      //status: "UNSOLD",
+    };
+  } else {
+    findFilter = {
+      //status: "UNSOLD",
+      catogery,
+    };
+  }
+
+  if (field == "price") {
+    Item.find(findFilter)
+      .sort({ price: order })
+      .populate("postedBy", "_id name")
+      .populate("boughtBy", "_id name walletAdd")
+      .then((items) => {
+        res.json({ items });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else if (field == "date") {
+    Item.find(findFilter)
+      .sort({ createdAt: order })
+      .populate("postedBy", "_id name")
+      .populate("boughtBy", "_id name walletAdd")
+      .then((items) => {
+        res.json({ items });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+    Item.find(findFilter)
+      .populate("postedBy", "_id name")
+      .populate("boughtBy", "_id name walletAdd")
+      .sort({ viewCount: -1 })
+      .then((items) => {
+        res.json({ items });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+});
+
 router.get("/item/:id", (req, res) => {
-  Item.find({ _id: req.params.id })
+  Item.findByIdAndUpdate(req.params.id, { $inc: { viewCount: 1 } })
     .populate("postedBy", "_id name walletAdd")
     .populate("boughtBy", "_id name walletAdd")
-    .sort("-createdAt")
     .then((item) => {
       res.json({ item });
     })
@@ -31,16 +83,51 @@ router.get("/item/:id", (req, res) => {
 
 router.post("/search", (req, res) => {
   let itemPattern = new RegExp("^.*" + req.body.query + ".*$");
-  Item.find({
-    title: { $regex: itemPattern, $options: "i" },
-    status: "UNSOLD",
-  })
-    .then((item) => {
-      res.json({ item });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+
+  const { order, field, query, catogery } = req.body;
+  let findFilter;
+
+  if (catogery == "") {
+    findFilter = {
+      title: { $regex: itemPattern, $options: "i" },
+      // status: "UNSOLD",
+    };
+  } else {
+    findFilter = {
+      title: { $regex: itemPattern, $options: "i" },
+      // status: "UNSOLD",
+      catogery,
+    };
+  }
+
+  if (field == "price") {
+    Item.find(findFilter)
+      .sort({ price: order })
+      .then((item) => {
+        res.json({ item });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else if (field == "date") {
+    Item.find(findFilter)
+      .sort({ createdAt: order })
+      .then((item) => {
+        res.json({ item });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+    Item.find(findFilter)
+      .sort({ viewCount: -1 })
+      .then((item) => {
+        res.json({ item });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 });
 
 router.post("/myitem", (req, res) => {
@@ -88,6 +175,7 @@ router.post("/createItem", (req, res) => {
     price,
     catogery,
     postedBy: req.body._id,
+    viewCount: 0,
   });
 
   item

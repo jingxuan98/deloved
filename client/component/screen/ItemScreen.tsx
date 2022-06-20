@@ -21,7 +21,7 @@ const ItemScreen: React.FC<Props> = (props) => {
   const { id } = props;
   const web3 = new Web3(Web3.givenProvider);
   const { user, setUser } = useContext(UserContext);
-  const [itemData, setItemData] = useState<any[]>([]);
+  const [itemData, setItemData] = useState(null);
   const [itemInnerData, setItemInnerData] = useState(null);
   const [txn, setTxn] = useState("");
   const [txnSuccess, setTxnSuccess] = useState(false);
@@ -161,43 +161,41 @@ const ItemScreen: React.FC<Props> = (props) => {
     <div className={styles.itemRow}>
       {renderShippingModal()}
       {itemData ? (
-        itemData.map((item) => (
-          <div className={styles.row}>
-            <div>
-              <img style={{ marginRight: 20 }} src={item?.photo} />
-            </div>
-            <div className={styles.columnItem}>
-              <h2>{item?.title}</h2>
-              <p>{item?.body}</p>
-              <Button
-                type="primary"
-                disabled={user?.data?._id == item?.postedBy?._id}
-                onClick={() => sendTransaction(itemData)}
-              >
-                {item?.price} USMT
-              </Button>
-              {user?.data?._id == item?.postedBy?._id && (
-                <div className={styles.ownerItemContainer}>
-                  <Button
-                    className={styles.ownerButton}
-                    type="ghost"
-                    onClick={() => {}}
-                  >
-                    <EditOutlined /> Edit
-                  </Button>
-                  <Button
-                    className={styles.ownerButton}
-                    type="ghost"
-                    style={{ color: "red" }}
-                    onClick={deleteItem}
-                  >
-                    <DeleteOutlined /> Delete
-                  </Button>
-                </div>
-              )}
-            </div>
+        <div className={styles.row}>
+          <div>
+            <img style={{ marginRight: 20 }} src={itemData?.photo} />
           </div>
-        ))
+          <div className={styles.columnItem}>
+            <h2>{itemData?.title}</h2>
+            <p>{itemData?.body}</p>
+            <Button
+              type="primary"
+              disabled={user?.data?._id == itemData?.postedBy?._id}
+              onClick={() => sendTransaction(itemData)}
+            >
+              {itemData?.price} USMT
+            </Button>
+            {user?.data?._id == itemData?.postedBy?._id && (
+              <div className={styles.ownerItemContainer}>
+                <Button
+                  className={styles.ownerButton}
+                  type="ghost"
+                  onClick={() => {}}
+                >
+                  <EditOutlined /> Edit
+                </Button>
+                <Button
+                  className={styles.ownerButton}
+                  type="ghost"
+                  style={{ color: "red" }}
+                  onClick={deleteItem}
+                >
+                  <DeleteOutlined /> Delete
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
       ) : (
         <h2 className={styles.header1}>Loading...</h2>
       )}
