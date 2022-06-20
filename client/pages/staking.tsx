@@ -9,6 +9,7 @@ import { getBalanceNumber } from "../helper/formatbalance";
 import { Button, Form, Input, InputNumber, Modal, notification } from "antd";
 import FormBuilder from "antd-form-builder";
 import { getFieldMeta } from "../helper/stakeModalFormMetas";
+import UnstakeForm from "../component/UnstakeForm";
 
 // const { Search } = Input;
 // declare var window: any;
@@ -23,23 +24,9 @@ export default function Staking() {
   const [stakedTokenBalance, setStakedTokenBalance] = useState("");
   const [stakedYieldBalance, setStakedYieldBalance] = useState("");
   const [isStakeModalVisible, setIsStakeModalVisible] = useState(false);
+  const [isUnstakeModalVisible, setIsUnstakeModalVisible] = useState(false);
   const [txn, setTxn] = useState("");
   const [txnSuccess, setTxnSuccess] = useState(false);
-  // const [web3, setWeb3] = useState(null);
-
-  //   useEffect(() => {
-  //     const fetchWindow = () => {
-  //       if (
-  //         typeof window.ethereum !== "undefined" ||
-  //         typeof window.web3 !== "undefined"
-  //       ) {
-  //         const provider = new Web3(window.ethereum);
-  //         setWeb3(provider);
-  //         // other stuff using provider here
-  //       }
-  //     };
-  //   }, []);
-  //   //#endregion
 
   const tokenContractAddress = "0x9a2b05682D7Ae37128A4827184d4f1877E327aE8";
   const stakingContractAddress = "0xB4aCd12223D7E4d6661106C07Ac02D73330971c2";
@@ -123,6 +110,54 @@ export default function Staking() {
     }
   };
 
+  const onUnstake = async (amount: string) => {
+    console.log("onUnStakeAmount", amount);
+    console.log("walletAdd", user?.data?.walletAdd);
+
+    let amountBN = amount + "000000000000000000";
+    let unstakeReceipt;
+
+    try {
+      unstakeReceipt = await stakingContract.methods
+        .unstake(amountBN)
+        .send({ from: user?.data?.walletAdd })
+        .on("transactionHash", (hash) => {
+          console.log("Unstake Tokens TXN =>", hash);
+          notification.open({
+            message: `Unstake Token Txn Hash is ${hash}`,
+          });
+        })
+        .on("error", () => {
+          console.error;
+        });
+    } catch (err) {
+      console.log("Token Unstaking Err ==>", err);
+    }
+  };
+
+  const onWithdraw = async () => {
+    console.log("walletAdd", user?.data?.walletAdd);
+
+    let withdrawReceipt;
+
+    try {
+      withdrawReceipt = await stakingContract.methods
+        .withdrawYield()
+        .send({ from: user?.data?.walletAdd })
+        .on("transactionHash", (hash) => {
+          console.log("Withdraw Yield TXN =>", hash);
+          notification.open({
+            message: `Withdraw Yield Txn Hash is ${hash}`,
+          });
+        })
+        .on("error", () => {
+          console.error;
+        });
+    } catch (err) {
+      console.log("Withdraw Yield Err ==>", err);
+    }
+  };
+
   const onFinish = (values: any) => {
     onStake(values.stakedAmount);
   };
@@ -133,6 +168,30 @@ export default function Staking() {
 
   const closeStakeModal = () => {
     setIsStakeModalVisible(false);
+  };
+
+  const showUnstakeModal = () => {
+    setIsUnstakeModalVisible(true);
+  };
+
+  const closeUnstakeModal = () => {
+    setIsUnstakeModalVisible(false);
+  };
+
+  const renderUnstakeModal = () => {
+    return (
+      <Modal
+        maskClosable
+        footer={null}
+        onCancel={closeUnstakeModal}
+        title="Unstake your USMT Tokens"
+        visible={isUnstakeModalVisible}
+      >
+        <div>
+          <UnstakeForm onSubmit={onUnstake} />
+        </div>
+      </Modal>
+    );
   };
 
   const renderStakeModal = () => {
@@ -166,17 +225,18 @@ export default function Staking() {
       ) : (
         <div>
           {renderStakeModal()}
+          {renderUnstakeModal()}
           <p>USMT Token Balance: {tokenBalance}</p>
           <p>Staked USMT Balance: {stakedTokenBalance}</p>
           <p>USMT Rewards Balance: {stakedYieldBalance}</p>
 
           <div>
-            {/* <Button type="primary" onClick={onUnstake}>
+            <Button type="ghost" onClick={showUnstakeModal}>
               Unstake
             </Button>
             <Button type="primary" onClick={onWithdraw}>
               Withdraw
-            </Button> */}
+            </Button>
             <Button type="primary" onClick={showStakeModal}>
               Stake/Top Up
             </Button>
