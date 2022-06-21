@@ -380,7 +380,12 @@
   font-weight: 600;
   border-radius: 20px;
   padding: 5px 15px;
-  margin-left: 10px;
+}
+
+.yieldRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 @media (max-width: 600px) {
@@ -416,5 +421,14 @@
   .yieldDisplay {
     font-family: monospace;
     font-size: 36px;
+  }
+  .yieldRow {
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .apyDisplay {
+    margin-bottom: 10px;
+    font-family: 14px;
   }
 }
