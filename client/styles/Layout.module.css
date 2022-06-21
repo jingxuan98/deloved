@@ -9,9 +9,26 @@
   .headerSide {
     flex-direction: column;
   }
+  .logo {
+    margin-left: 0px !important;
+  }
+  .chatIcon {
+    font-size: 18px;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin: 10px 0px;
+    cursor: pointer;
+  }
 }
 
 /*Header*/
+
+.logo {
+  height: 55px;
+  margin: 10px 0px;
+  margin-left: 50px;
+}
+
 .headerContainer {
   display: flex;
   justify-content: space-between;
@@ -40,6 +57,10 @@
   margin-right: 25px;
   margin-left: 5px;
   cursor: pointer;
+}
+.chatIcon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -10px #4e54c8 !important;
 }
 
 .connectBtnText {

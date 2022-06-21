@@ -43,9 +43,10 @@ const UpdateProfileForm: React.FC<Props> = (props) => {
   }, [url]);
 
   const onActionSubmit = async (values: any) => {
+    setItem(values);
+
     if (image) {
       const data = new FormData();
-      setItem(values);
       data.append("file", image);
       data.append("upload_preset", "usmforum");
       data.append("cloud_name", "dfoc7c90v");
@@ -71,7 +72,7 @@ const UpdateProfileForm: React.FC<Props> = (props) => {
         },
         body: JSON.stringify({
           _id,
-          name: item.name,
+          name: values.name,
         }),
       })
         .then((res) => res.json())
@@ -86,13 +87,17 @@ const UpdateProfileForm: React.FC<Props> = (props) => {
 
   return (
     <Form onFinish={onActionSubmit} form={form} layout="vertical">
-      <img src={pic} style={{ height: 300, width: 300 }} />
-      <div className="btn">
-        <span>Attachment</span>
-        <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+      <img src={pic} style={{ height: 200, marginBottom: 24 }} />
+      <div className="btn" style={{ marginBottom: 24 }}>
+        <span style={{ fontWeight: "600" }}>Photo</span>
+        <input
+          style={{ marginTop: 8 }}
+          type="file"
+          onChange={(e) => setImage(e.target.files[0])}
+        />
       </div>
       <FormBuilder meta={metas} form={form} />
-      <Button htmlType="submit" type="primary">
+      <Button style={{ float: "right" }} htmlType="submit" type="primary">
         Update
       </Button>
     </Form>

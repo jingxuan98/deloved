@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import Head from "next/head";
-import { MessageOutlined } from "@ant-design/icons";
+import { CommentOutlined, MessageOutlined } from "@ant-design/icons";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { useWeb3React } from "@web3-react/core";
 import { UserContext } from "../pages/_app";
@@ -146,6 +146,9 @@ export default function Layout({ children }: LayoutProps) {
       case "create":
         router.push(`/createPost`);
         break;
+      case "staking":
+        router.push(`/staking`);
+        break;
       default:
         router.push(`/`);
     }
@@ -160,11 +163,7 @@ export default function Layout({ children }: LayoutProps) {
       </Head>
       <div className={styles.headerContainer}>
         {renderChatListModal()}
-        <img
-          alt="logo"
-          style={{ height: 55, margin: "10px 0px", marginLeft: "50px" }}
-          src="/newLogo.png"
-        />
+        <img alt="logo" className={styles.logo} src="/newLogo.png" />
 
         <div className={styles.headerSide}>
           <Menu
@@ -181,13 +180,17 @@ export default function Layout({ children }: LayoutProps) {
                 key: "order",
               },
               {
+                label: "Staking",
+                key: "staking",
+              },
+              {
                 label: "Profile",
                 key: "profile",
               },
             ]}
           />
           {active && (
-            <MessageOutlined
+            <CommentOutlined
               onClick={showChatListModal}
               className={styles.chatIcon}
             />

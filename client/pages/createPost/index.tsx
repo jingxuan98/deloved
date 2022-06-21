@@ -79,36 +79,44 @@ const CreateForm: React.FC<Props> = (props) => {
   return (
     <>
       {user?.data ? (
-        <div className={styles.formContainer}>
+        <div className={styles.container}>
           <div className="connectTextContainer">
             <h2 style={{ textAlign: "center" }} className={styles.header1}>
               Post Your DreLoved Item
             </h2>
           </div>
-          <Form form={form} layout="vertical" onFinish={onActionSubmit}>
-            <div className="file-field input-field">
-              <FormBuilder meta={metas} form={form} />
-              <div className="btn">
-                <span>Attachment</span>
-                <input
-                  type="file"
-                  required={true}
-                  onChange={(e) => setImage(e.target.files[0])}
-                />
+          <div className={styles.formContainer}>
+            <Form form={form} layout="vertical" onFinish={onActionSubmit}>
+              <div className="file-field input-field">
+                <FormBuilder meta={metas} form={form} />
+                <div className="btn">
+                  <span style={{ fontWeight: "600" }}>Photo</span>
+                  <input
+                    type="file"
+                    style={{ marginTop: 8 }}
+                    required={true}
+                    onChange={(e) => setImage(e.target.files[0])}
+                  />
+                </div>
               </div>
-            </div>
-            <Form.Item style={{ textAlign: "right" }}>
-              <Button htmlType="submit" type="primary">
-                Create Post
-              </Button>
-            </Form.Item>
-          </Form>
+              <Form.Item style={{ textAlign: "right" }}>
+                <Button htmlType="submit" type="primary">
+                  Create Post
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
         </div>
       ) : (
-        <div className="connectTextContainer">
-          <h2 style={{ textAlign: "center" }} className={styles.header1}>
-            Please Connect A Wallet To Create Post....
-          </h2>
+        <div className={styles.container}>
+          <div className="connectTextContainer">
+            <h2
+              style={{ textAlign: "center", fontSize: 28 }}
+              className={styles.header1}
+            >
+              Please Connect A Wallet To Create Post....
+            </h2>
+          </div>
         </div>
       )}
     </>

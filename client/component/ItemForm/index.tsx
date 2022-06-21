@@ -103,11 +103,12 @@ const ItemForm: React.FC<Props> = (props) => {
         <Form form={form} layout="vertical" onFinish={onActionSubmit}>
           <div className="file-field input-field">
             <FormBuilder meta={metas} form={form} />
-            <img src={data?.photo} style={{ width: 200 }} />
+            <img src={data?.photo} style={{ width: 200, marginBottom: 24 }} />
             <div className="btn">
-              <span>Attachment</span>
+              <span style={{ fontWeight: "600" }}>Photo</span>
               <input
                 type="file"
+                style={{ marginTop: 8 }}
                 onChange={(e) => setImage(e.target.files[0])}
               />
             </div>

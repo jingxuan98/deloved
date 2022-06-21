@@ -144,23 +144,26 @@ export default function ProfilePage() {
 
   return (
     <div className={styles.container}>
-      <Profile isUser={isUser} data={userData} rating={rating} />
       {!user?.data ? (
         <h2 className={styles.header1} style={{ fontWeight: 300 }}>
           Please Connect Your Wallet....
         </h2>
       ) : (
-        <Tabs defaultActiveKey="1" centered>
-          <TabPane tab="My Items" key="1">
-            {renderItems()}
-          </TabPane>
-          <TabPane tab="My Reviews" key="2">
-            {renderReviews()}
-          </TabPane>
-          <TabPane tab="My Wishlist" key="3">
-            {renderWishlist()}
-          </TabPane>
-        </Tabs>
+        <>
+          <Profile isUser={isUser} data={userData} rating={rating} />
+
+          <Tabs defaultActiveKey="1" centered>
+            <TabPane tab="My Items" key="1">
+              {renderItems()}
+            </TabPane>
+            <TabPane tab="My Reviews" key="2">
+              {renderReviews()}
+            </TabPane>
+            <TabPane tab="My Wishlist" key="3">
+              {renderWishlist()}
+            </TabPane>
+          </Tabs>
+        </>
       )}
 
       {/* <h1 className={styles.header1}>My Items</h1> */}

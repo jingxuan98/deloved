@@ -154,7 +154,10 @@ export default function ChatPage() {
                         style={{ width: 100, height: 100, margin: "0px 10px" }}
                         src="https://images.vexels.com/media/users/3/206062/isolated/preview/d0de78df943ea9b630c87ec98cf902ef-hi-speech-bubble-doodle.png"
                       />
-                      <h2 style={{ marginTop: 0 }} className={styles.header1}>
+                      <h2
+                        style={{ marginTop: 0, color: "black", fontSize: 24 }}
+                        className={styles.header1}
+                      >
                         Say "Hi"
                         <br />
                         Start A Conversation

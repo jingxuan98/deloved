@@ -34,6 +34,15 @@
   box-shadow: 0 10px 20px -10px white !important;
 }
 
+.ant-tabs-content .ant-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -10px #4e54c8 !important;
+}
+
+.ant-tabs-content .ant-card-bordered {
+  border: 2px solid #f0f0f0;
+}
+
 .ant-input-number-affix-wrapper {
   width: 100%;
 }
@@ -135,11 +144,72 @@
   background: #a1a1a1 !important;
 }
 
+.ant-modal-content {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.ant-input-affix-wrapper {
+  border-radius: 20px;
+}
+
+.ant-select-single .ant-select-selector {
+  border-radius: 20px !important;
+}
+
+.ant-form-vertical .ant-form-item-label > label {
+  font-weight: 600;
+}
+
+.ant-input-number {
+  width: 100% !important;
+  border-radius: 20px;
+}
+
+.ant-input-number-handler-wrap {
+  border-radius: 0px 20px 20px 0px;
+}
+
+.ant-modal-title {
+  font-weight: 600;
+}
+
+.ant-input-number-affix-wrapper {
+  border-radius: 20px;
+}
+
+.ant-tabs {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.ant-collapse {
+  border-radius: 20px;
+}
+.ant-collapse > .ant-collapse-item:last-child {
+  border-bottom: 1px solid #d9d9d9;
+  border-radius: 20px;
+}
+
+.ant-btn:focus {
+  background: #8f94fb;
+  color: white;
+}
+
+.ant-btn:focus span {
+  color: white;
+}
+
 @media (max-width: 600px) {
   .ant-collapse > .ant-collapse-item > .ant-collapse-header {
     width: 300px;
   }
   .ant-comment {
     width: 300px;
+  }
+  .ant-menu-overflow {
+    flex-wrap: wrap;
   }
 }

@@ -223,21 +223,51 @@ export default function Staking() {
           Please Connect Your Wallet....
         </h2>
       ) : (
-        <div>
+        <div className={styles.stakingContainer}>
           {renderStakeModal()}
           {renderUnstakeModal()}
-          <p>USMT Token Balance: {tokenBalance}</p>
-          <p>Staked USMT Balance: {stakedTokenBalance}</p>
-          <p>USMT Rewards Balance: {stakedYieldBalance}</p>
+          <div className={styles.stakedRowBorderBtm}>
+            <img src="/usmt.png" style={{ width: 150 }} />
+            <div className={styles.stakeColumn}>
+              <h4 className={styles.h4Label}>USMT Rewards:</h4>
+              <h4 className={styles.yieldDisplay} style={{ marginBottom: 0 }}>
+                {stakedYieldBalance} USMT
+              </h4>
+            </div>
+          </div>
+          <div className={styles.stakedRow}>
+            <div style={{ width: "auto" }} className={styles.stakeColumn}>
+              <h4 className={styles.h4Label}>USMT Staked: </h4>
+              <h4 className={styles.balanceDisplay}>
+                {stakedTokenBalance} USMT
+              </h4>
+            </div>
+            <div className={styles.stakeColumn}>
+              <h4 className={styles.h4Label}>Wallet USMT Balance: </h4>
+              <h4 className={styles.balanceDisplay}>{tokenBalance} USMT</h4>
+            </div>
+          </div>
 
-          <div>
-            <Button type="ghost" onClick={showUnstakeModal}>
+          <div className={styles.stakedBtnRow}>
+            <Button
+              className={styles.stakedBtn}
+              type="ghost"
+              onClick={showUnstakeModal}
+            >
               Unstake
             </Button>
-            <Button type="primary" onClick={onWithdraw}>
+            <Button
+              className={styles.stakedBtn}
+              type="primary"
+              onClick={onWithdraw}
+            >
               Withdraw
             </Button>
-            <Button type="primary" onClick={showStakeModal}>
+            <Button
+              className={styles.stakedBtn}
+              type="primary"
+              onClick={showStakeModal}
+            >
               Stake/Top Up
             </Button>
           </div>

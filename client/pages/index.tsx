@@ -170,10 +170,13 @@ export default function Home() {
           );
         })}
       </div>
-      <h1 className={styles.header1}>Dreloved Items</h1>
-      <div style={{ width: "100%", textAlign: "center", marginBottom: 24 }}>
+      <h1 style={{ fontSize: 42 }} className={styles.header1}>
+        Dreloved Items
+      </h1>
+      <div style={{ width: "100%", textAlign: "center" }}>
         <Search
           className={styles.searchBar}
+          style={{ marginBottom: 24 }}
           type="text"
           placeholder="Search Items..."
           onSearch={onSearch}

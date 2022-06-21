@@ -98,7 +98,10 @@ const ProfileCard: React.FC<Props> = (props) => {
         <div
           className={isItemCard ? styles.profileInnerItem : styles.profileInner}
         >
-          <h4 className={isItemCard ? styles.profileContainerText : ""}>
+          <h4
+            style={{ fontWeight: "600" }}
+            className={isItemCard ? styles.profileContainerText : ""}
+          >
             {userData?.walletAdd}
           </h4>
           <h4 className={isItemCard ? styles.profileContainerText : ""}>

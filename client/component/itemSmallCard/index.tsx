@@ -22,6 +22,7 @@ const ItemSmallCard: React.FC<Props> = (props) => {
   const [liked, setLiked] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const { title, postedBy, body, price, photo, _id, likes } = itemData;
+  const isSold = data?.status == "SOLD";
   const router = useRouter();
 
   useEffect(() => {
@@ -65,10 +66,54 @@ const ItemSmallCard: React.FC<Props> = (props) => {
       });
   };
 
+  const buyAction = [
+    <div
+      className={styles.cardPrice}
+      style={{ color: "red" }}
+      onClick={() => {
+        liked ? unlike() : like();
+      }}
+    >
+      {liked ? (
+        <HeartFilled key="like" style={{ marginRight: 10 }} />
+      ) : (
+        <HeartOutlined key="like" style={{ marginRight: 10 }} />
+      )}
+      Wishlist
+    </div>,
+    <div
+      onClick={() => router.push(`/item/${_id}`)}
+      className={styles.cardPrice}
+    >
+      <TagOutlined key="price" style={{ marginRight: 10 }} /> {price} USMT
+    </div>,
+  ];
+
+  const soldAction = [
+    <div
+      className={styles.cardPrice}
+      style={{ color: "red" }}
+      onClick={() => {
+        liked ? unlike() : like();
+      }}
+    >
+      {liked ? (
+        <HeartFilled key="like" style={{ marginRight: 10 }} />
+      ) : (
+        <HeartOutlined key="like" style={{ marginRight: 10 }} />
+      )}
+      Wishlist
+    </div>,
+    <div style={{ color: "gray" }} className={styles.cardPrice}>
+      <TagOutlined key="price" style={{ marginRight: 10, color: "gray" }} />
+      Sold!
+    </div>,
+  ];
+
   return (
     <Card
-      hoverable
-      style={{ width: 300, margin: 15 }}
+      hoverable={!isSold}
+      style={{ width: 300, margin: 15, opacity: isSold ? "40%" : "100%" }}
       cover={
         <img
           style={{ cursor: "pointer" }}
@@ -77,28 +122,7 @@ const ItemSmallCard: React.FC<Props> = (props) => {
           src={photo || fallback}
         />
       }
-      actions={[
-        <div
-          className={styles.cardPrice}
-          style={{ color: "red" }}
-          onClick={() => {
-            liked ? unlike() : like();
-          }}
-        >
-          {liked ? (
-            <HeartFilled key="like" style={{ marginRight: 10 }} />
-          ) : (
-            <HeartOutlined key="like" style={{ marginRight: 10 }} />
-          )}
-          Wishlist
-        </div>,
-        <div
-          onClick={() => router.push(`/item/${_id}`)}
-          className={styles.cardPrice}
-        >
-          <TagOutlined key="price" style={{ marginRight: 10 }} /> {price} USMT
-        </div>,
-      ]}
+      actions={isSold ? soldAction : buyAction}
     >
       <div
         style={{ cursor: "pointer", padding: 24 }}

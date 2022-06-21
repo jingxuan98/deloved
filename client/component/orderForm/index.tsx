@@ -155,7 +155,6 @@ const OrderForm: React.FC<Props> = (props) => {
             <Button onClick={showShippingModal} type="ghost">
               Update Shipping
             </Button>
-            <Button type="ghost">Release Funds</Button>
             <Button onClick={showReviewModal} type="ghost">
               Review Seller
             </Button>
