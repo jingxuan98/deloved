@@ -229,7 +229,10 @@ export default function Staking() {
           <div className={styles.stakedRowBorderBtm}>
             <img src="/usmt.png" style={{ width: 150 }} />
             <div className={styles.stakeColumn}>
-              <h4 className={styles.h4Label}>USMT Rewards:</h4>
+              <h4 className={styles.h4Label}>
+                USMT Rewards:{"    "}
+                <span className={styles.apyDisplay}> 730% APY Now!</span>
+              </h4>
               <h4 className={styles.yieldDisplay} style={{ marginBottom: 0 }}>
                 {stakedYieldBalance} USMT
               </h4>
