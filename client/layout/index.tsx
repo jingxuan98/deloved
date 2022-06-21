@@ -157,12 +157,6 @@ export default function Layout({ children }: LayoutProps) {
         <title>Dreloved</title>
         <meta name="description" content="A Secondhand MarketPlace Dapp" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap"
-          rel="stylesheet"
-        />
       </Head>
       <div className={styles.headerContainer}>
         {renderChatListModal()}
@@ -176,14 +170,22 @@ export default function Layout({ children }: LayoutProps) {
           <Menu
             style={{ marginRight: 10 }}
             onClick={handleNav}
+            inlineCollapsed={false}
             selectedKeys={[current]}
             mode="horizontal"
-          >
-            <Menu.Item key="home">Home</Menu.Item>
-            <Menu.Item key="create">Create</Menu.Item>
-            <Menu.Item key="order">My Orders</Menu.Item>
-            <Menu.Item key="profile">Profile</Menu.Item>
-          </Menu>
+            items={[
+              { label: "Home", key: "home" }, // remember to pass the key prop
+              { label: "Create", key: "create" }, // which is required
+              {
+                label: "My Order",
+                key: "order",
+              },
+              {
+                label: "Profile",
+                key: "profile",
+              },
+            ]}
+          />
           {active && (
             <MessageOutlined
               onClick={showChatListModal}

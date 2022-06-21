@@ -171,7 +171,7 @@ export default function Home() {
         })}
       </div>
       <h1 className={styles.header1}>Dreloved Items</h1>
-      <div style={{ width: "100%", textAlign: "center" }}>
+      <div style={{ width: "100%", textAlign: "center", marginBottom: 24 }}>
         <Search
           className={styles.searchBar}
           type="text"

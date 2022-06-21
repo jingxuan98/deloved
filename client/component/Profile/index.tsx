@@ -13,7 +13,7 @@ const fallback =
   "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty-300x240.jpg";
 
 const ProfileCard: React.FC<Props> = (props) => {
-  const { data, rating, isUser, showChatBtn } = props;
+  const { data, rating, isUser, showChatBtn, isItemCard } = props;
   const { user, setUser } = useContext(UserContext);
   const [userData, setUserData] = useState(data);
   const [loading, setLoading] = useState(false);
@@ -83,13 +83,27 @@ const ProfileCard: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className={styles.profileContainer}>
+      <div
+        className={
+          isItemCard ? styles.profileContainerItem : styles.profileContainer
+        }
+      >
         {renderUserModal()}
         <Loader loading={isChatRoomVisible} />
-        <img alt="profile" src={userData?.pic || fallback} />
-        <div className="profileInner">
-          <h4>{userData?.walletAdd}</h4>
-          <h4>{userData?.name}</h4>
+        <img
+          alt="profile"
+          style={{ width: isItemCard ? 70 : 100 }}
+          src={userData?.pic || fallback}
+        />
+        <div
+          className={isItemCard ? styles.profileInnerItem : styles.profileInner}
+        >
+          <h4 className={isItemCard ? styles.profileContainerText : ""}>
+            {userData?.walletAdd}
+          </h4>
+          <h4 className={isItemCard ? styles.profileContainerText : ""}>
+            {userData?.name}
+          </h4>
           {!isNaN(rating) && <h4>{rating?.toFixed(2) || 0}⭐</h4>}
         </div>
         <div className={styles.profileButtonContainer}>
@@ -111,7 +125,7 @@ const ProfileCard: React.FC<Props> = (props) => {
           )}
         </div>
       </div>
-      <div style={{ border: "1px lightgrey solid", width: "70%" }} />
+      {/* <div style={{ border: "1px lightgrey solid", width: "70%" }} /> */}
     </>
   );
 };

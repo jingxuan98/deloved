@@ -5,6 +5,8 @@ import Web3 from "web3";
 import { provider } from "web3-core";
 import Layout from "../layout";
 import "antd/dist/antd.css";
+import "@fontsource/varela-round";
+import "../styles/globals.css";
 require("../styles/variables.less");
 
 export const UserContext = createContext(null);

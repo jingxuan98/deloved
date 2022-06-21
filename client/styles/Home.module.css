@@ -2,8 +2,19 @@
   padding: 0 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #4e54c8, #8f94fb);
+}
+
+.itemPageContainer {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #4e54c8, #8f94fb);
 }
 
 #_next {
@@ -20,6 +31,9 @@
 .header1 {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: white;
+  font-size: 42px;
 }
 
 .main {
@@ -106,6 +120,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  width: 100%;
 }
 
 .code {
@@ -181,6 +196,11 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  margin-top: 100px;
+  width: 90%;
 }
 
 .itemRow img {
@@ -189,6 +209,8 @@
 
 .searchBar {
   max-width: 400px;
+  border-radius: 20px 0px 0px 20px;
+  margin-right: 10px;
 }
 
 /*ChatPage*/

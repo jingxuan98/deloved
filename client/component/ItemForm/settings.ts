@@ -1,18 +1,9 @@
+import { catogeries } from "./../../pages/createPost/settings";
 import { InputNumber, Select } from "antd";
-// import { Props } from "./props";
+import { Props } from "./props";
 
-export const catogeries = [
-  { value: "Services", label: "Services" },
-  { value: "Supplements", label: "Supplements" },
-  { value: "Electronics", label: "Electronics" },
-  { value: "Medical Supplies", label: "Medical Supplies" },
-  { value: "Furnitures", label: "Furnitures" },
-  { value: "Beauty & Cosmectics", label: "Beauty & Cosmectics" },
-  { value: "Weapons", label: "Weapons" },
-];
-
-export const getFieldMeta = () => {
-  // const { data, sell } = props;
+export const getFieldMeta = (props) => {
+  const { data } = props;
 
   return {
     formItemLayout: [24, 24],
@@ -21,6 +12,7 @@ export const getFieldMeta = () => {
         key: "title",
         label: "Item Title",
         placeholder: "Item Title",
+        initialValue: data?.title,
         hasFeedback: true,
         rules: [
           {
@@ -33,6 +25,7 @@ export const getFieldMeta = () => {
         key: "body",
         label: "Item Description",
         placeholder: "Description",
+        initialValue: data?.body,
         hasFeedback: true,
         rules: [
           {
@@ -44,6 +37,7 @@ export const getFieldMeta = () => {
       {
         key: "price",
         label: "Price",
+        initialValue: data?.price,
         widget: InputNumber,
         rules: [
           {
@@ -59,6 +53,7 @@ export const getFieldMeta = () => {
       {
         key: "catogery",
         label: "Catogery",
+        initialValue: data?.catogery,
         widget: Select,
         placeholder: "Click To Select",
         options: catogeries,
@@ -66,5 +61,4 @@ export const getFieldMeta = () => {
     ],
   };
 };
-
 export default getFieldMeta;

@@ -1,9 +1,13 @@
-@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
+@font-face {
+  font-family: "VarelaRound";
+  src: url("/VarelaRoundRegular.ttf") format("truetype");
+}
 
 html,
 body {
   padding: 0;
   margin: 0;
+  font-family: Roboto !important;
   /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
 }
@@ -15,7 +19,6 @@ a {
 
 * {
   box-sizing: border-box;
-  font-family: "Varela Round", sans-serif;
 }
 
 :root {

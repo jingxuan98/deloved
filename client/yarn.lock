@@ -297,6 +297,11 @@
     "@ethersproject/properties" "^5.6.0"
     "@ethersproject/strings" "^5.6.0"
 
+"@fontsource/varela-round@^4.5.8":
+  version "4.5.8"
+  resolved "https://registry.yarnpkg.com/@fontsource/varela-round/-/varela-round-4.5.8.tgz#09d293a67f6ff9dd0e384ef87b4ece3994cd9cae"
+  integrity sha512-1odZGPJYKG6DXuvrIy3/UaRzSYhiezWt3fx+62+aExJc+zJojReuwHYiOLLLXwkZWsKpBVchdpueFGdxRae/ZA==
+
 "@humanwhocodes/config-array@^0.9.2":
   version "0.9.5"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.9.5.tgz#2cbaf9a89460da24b5ca6531b8bbfc23e1df50c7"

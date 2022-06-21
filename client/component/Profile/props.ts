@@ -9,6 +9,7 @@ export type Props = {
   data?: User;
   isUser?: boolean;
   showChatBtn?: boolean;
+  isItemCard?: boolean;
   rating?: number;
 };
 

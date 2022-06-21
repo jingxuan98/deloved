@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@fontsource/varela-round": "^4.5.8",
     "@types/node": "^17.0.23",
     "@types/react": "^17.0.43",
     "@web3-react/core": "^6.1.9",

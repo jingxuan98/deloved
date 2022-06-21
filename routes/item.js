@@ -71,8 +71,8 @@ router.post("/allItemsSort", (req, res) => {
 
 router.get("/item/:id", (req, res) => {
   Item.findByIdAndUpdate(req.params.id, { $inc: { viewCount: 1 } })
-    .populate("postedBy", "_id name walletAdd")
-    .populate("boughtBy", "_id name walletAdd")
+    .populate("postedBy", "_id name walletAdd pic")
+    .populate("boughtBy", "_id name walletAdd pic")
     .then((item) => {
       res.json({ item });
     })

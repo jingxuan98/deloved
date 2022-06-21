@@ -10,6 +10,8 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import ShippingForm from "../ShippingForm";
 import { busdABI, tokenABI } from "../../helper/abi";
+import ProfileCard from "../Profile";
+import ItemForm from "../ItemForm";
 
 // export const web3 = new Web3(
 //   new Web3.providers.HttpProvider(
@@ -30,6 +32,7 @@ const ItemScreen: React.FC<Props> = (props) => {
   const [txnSuccess, setTxnSuccess] = useState(false);
   const [isShippingModalVisible, setIsShippingModalVisible] = useState(false);
   const [isBuyModalVisible, setIsBuyModalVisible] = useState(false);
+  const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -70,6 +73,14 @@ const ItemScreen: React.FC<Props> = (props) => {
     setIsShippingModalVisible(false);
   };
 
+  const showUpdateModal = () => {
+    setIsUpdateModalVisible(true);
+  };
+
+  const closeUpdateModal = () => {
+    setIsUpdateModalVisible(false);
+  };
+
   const renderShippingModal = () => {
     return (
       <Modal
@@ -80,6 +91,20 @@ const ItemScreen: React.FC<Props> = (props) => {
         visible={isShippingModalVisible}
       >
         <ShippingForm onSubmit={sumbitShippingOrder} />
+      </Modal>
+    );
+  };
+
+  const renderUpdateModal = () => {
+    return (
+      <Modal
+        maskClosable
+        footer={null}
+        onCancel={closeUpdateModal}
+        title="Update Item"
+        visible={isUpdateModalVisible}
+      >
+        <ItemForm data={itemData} />
       </Modal>
     );
   };
@@ -273,53 +298,61 @@ const ItemScreen: React.FC<Props> = (props) => {
   };
 
   return (
-    <div className={styles.itemRow}>
-      {renderShippingModal()}
-      {renderBuyModal()}
-      {itemData ? (
-        <div className={styles.row}>
-          <div>
-            <img style={{ marginRight: 20 }} src={itemData?.photo} />
+    <div className={styles.itemPageContainer}>
+      <div className={styles.itemRow}>
+        {renderShippingModal()}
+        {renderBuyModal()}
+        {renderUpdateModal()}
+        {itemData ? (
+          <div className={styles.row}>
+            <div>
+              <img style={{ marginRight: 20 }} src={itemData?.photo} />
+            </div>
+            <div className={styles.columnItem}>
+              <h2 style={{ fontWeight: 600, fontSize: 28, marginTop: 30 }}>
+                {itemData?.title}
+              </h2>
+              <p>{itemData?.body}</p>
+              <Button
+                type="primary"
+                // style={{ width: 300, alignSelf: "center" }}
+                disabled={
+                  user?.data?._id == itemData?.postedBy?._id ||
+                  itemData?.status == "SOLD"
+                }
+                onClick={() => showBuyModal()}
+              >
+                {itemData?.status == "UNSOLD"
+                  ? `${itemData?.price} USMT`
+                  : "Item Sold"}
+              </Button>
+              <h4 style={{ marginTop: "2rem", fontWeight: 600 }}>Posted by:</h4>
+              <ProfileCard isItemCard data={itemData?.postedBy} />
+              {user?.data?._id == itemData?.postedBy?._id && (
+                <div className={styles.ownerItemContainer}>
+                  <Button
+                    className={styles.ownerButton}
+                    type="ghost"
+                    onClick={() => showUpdateModal()}
+                  >
+                    <EditOutlined /> Edit
+                  </Button>
+                  <Button
+                    className={styles.ownerButton}
+                    type="ghost"
+                    style={{ color: "red" }}
+                    onClick={deleteItem}
+                  >
+                    <DeleteOutlined /> Delete
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
-          <div className={styles.columnItem}>
-            <h2>{itemData?.title}</h2>
-            <p>{itemData?.body}</p>
-            <Button
-              type="primary"
-              disabled={
-                user?.data?._id == itemData?.postedBy?._id ||
-                itemData?.status == "SOLD"
-              }
-              onClick={() => setIsBuyModalVisible(true)}
-            >
-              {itemData?.status == "UNSOLD"
-                ? `${itemData?.price} USMT`
-                : "Item Sold"}
-            </Button>
-            {user?.data?._id == itemData?.postedBy?._id && (
-              <div className={styles.ownerItemContainer}>
-                <Button
-                  className={styles.ownerButton}
-                  type="ghost"
-                  onClick={() => {}}
-                >
-                  <EditOutlined /> Edit
-                </Button>
-                <Button
-                  className={styles.ownerButton}
-                  type="ghost"
-                  style={{ color: "red" }}
-                  onClick={deleteItem}
-                >
-                  <DeleteOutlined /> Delete
-                </Button>
-              </div>
-            )}
-          </div>
-        </div>
-      ) : (
-        <h2 className={styles.header1}>Loading...</h2>
-      )}
+        ) : (
+          <h2 className={styles.header1}>Loading...</h2>
+        )}
+      </div>
     </div>
   );
 };
