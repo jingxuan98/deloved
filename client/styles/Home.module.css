@@ -388,6 +388,26 @@
   justify-content: space-around;
 }
 
+.itemImg {
+  margin-right: 20px;
+  min-width: 400px;
+}
+
+.itemTitle {
+  font-weight: 600;
+  font-size: 20px;
+  margin-top: 15px;
+}
+
+.chatHi {
+  margin-top: 0px;
+  color: black;
+  font-size: 24px;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
@@ -430,5 +450,28 @@
   .apyDisplay {
     margin-bottom: 10px;
     font-family: 14px;
+  }
+  .formContainer {
+    width: 100%;
+  }
+  .itemImg {
+    margin-right: 0px;
+    min-width: 0px;
+    width: 100%;
+  }
+  .columnItem {
+    min-width: 270px;
+  }
+  .chatContainer {
+    min-width: 0px;
+    width: 1005;
+  }
+  .chatHi {
+    font-size: 12px;
+    align-self: center;
+  }
+  .chatContainerFlex {
+    width: 90%;
+    min-width: 0px;
   }
 }

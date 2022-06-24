@@ -5,7 +5,7 @@ const Item = mongoose.model("Item");
 
 router.get("/allItems", (req, res) => {
   Item.find({
-    // status: "UNSOLD"
+    status: "UNSOLD",
   })
     .populate("postedBy", "_id name")
     .populate("boughtBy", "_id name walletAdd")
@@ -24,11 +24,11 @@ router.post("/allItemsSort", (req, res) => {
 
   if (catogery == "") {
     findFilter = {
-      //status: "UNSOLD",
+      status: "UNSOLD",
     };
   } else {
     findFilter = {
-      //status: "UNSOLD",
+      status: "UNSOLD",
       catogery,
     };
   }
@@ -90,12 +90,12 @@ router.post("/search", (req, res) => {
   if (catogery == "") {
     findFilter = {
       title: { $regex: itemPattern, $options: "i" },
-      // status: "UNSOLD",
+      status: "UNSOLD",
     };
   } else {
     findFilter = {
       title: { $regex: itemPattern, $options: "i" },
-      // status: "UNSOLD",
+      status: "UNSOLD",
       catogery,
     };
   }

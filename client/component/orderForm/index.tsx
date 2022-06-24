@@ -12,6 +12,7 @@ import { Button, Form, Modal } from "antd";
 import getFieldMeta from "./settings";
 import ReviewForm from "../ReviewForm";
 import ShippingForm from "../ShippingForm";
+import router from "next/router";
 
 const fallback =
   "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty-300x240.jpg";
@@ -135,7 +136,11 @@ const OrderForm: React.FC<Props> = (props) => {
       {renderReviewModal()}
       <div style={{ width: "100%", textAlign: "center", margin: "10px 0px" }}>
         {mode === "view" && (
-          <img style={{ width: 300 }} src={data?.item?.photo} alt="profile" />
+          <img
+            className={styles.orderImg}
+            src={data?.item?.photo}
+            alt="profile"
+          />
         )}
       </div>
 
@@ -146,6 +151,18 @@ const OrderForm: React.FC<Props> = (props) => {
             <Button onClick={showOrderModal} type="ghost">
               Update Order
             </Button>
+            <Button
+              onClick={() => router.push(`/user/${data?.buyer?._id}`)}
+              type="ghost"
+            >
+              View Buyer
+            </Button>
+            <Button
+              onClick={() => router.push(`/item/${data?.item?._id}`)}
+              type="ghost"
+            >
+              View Item
+            </Button>
             <Button onClick={showReviewModal} type="ghost">
               Review Buyer
             </Button>
@@ -154,6 +171,18 @@ const OrderForm: React.FC<Props> = (props) => {
           <>
             <Button onClick={showShippingModal} type="ghost">
               Update Shipping
+            </Button>
+            <Button
+              onClick={() => router.push(`/item/${data?.item?._id}`)}
+              type="ghost"
+            >
+              View Item
+            </Button>
+            <Button
+              onClick={() => router.push(`/user/${data?.seller?._id}`)}
+              type="ghost"
+            >
+              View Seller
             </Button>
             <Button onClick={showReviewModal} type="ghost">
               Review Seller

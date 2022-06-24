@@ -84,6 +84,7 @@ const ProfileCard: React.FC<Props> = (props) => {
   return (
     <>
       <div
+        onClick={() => userData?._id && router.push(`/user/${userData?._id}`)}
         className={
           isItemCard ? styles.profileContainerItem : styles.profileContainer
         }

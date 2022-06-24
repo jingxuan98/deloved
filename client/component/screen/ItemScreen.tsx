@@ -306,12 +306,10 @@ const ItemScreen: React.FC<Props> = (props) => {
         {itemData ? (
           <div className={styles.row}>
             <div>
-              <img style={{ marginRight: 20 }} src={itemData?.photo} />
+              <img className={styles.itemImg} src={itemData?.photo} />
             </div>
             <div className={styles.columnItem}>
-              <h2 style={{ fontWeight: 600, fontSize: 28, marginTop: 30 }}>
-                {itemData?.title}
-              </h2>
+              <h2 className={styles.itemTitle}>{itemData?.title}</h2>
               <p>{itemData?.body}</p>
               <Button
                 type="primary"
