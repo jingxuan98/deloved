@@ -187,17 +187,18 @@ const ItemScreen: React.FC<Props> = (props) => {
     let fromAddress = user?.data?.walletAdd;
     let tokenAddress = "0x9a2b05682D7Ae37128A4827184d4f1877E327aE8";
     let toAddress = item?.postedBy?.walletAdd;
-    let priceBN = price * 1000000000000000000;
+    //let priceBN = price * 1000000000000000000;
     // Use BigNumber
     // let decimals = web3.utils.toBN(18);
-    // let amount = web3.utils.toBN(item.price);
+    let tokens = web3.utils.toWei(price.toString(), "ether");
+    // let amount = web3.utils.toBN(tokens);
     // let value = amount.mul(web3.utils.toBN(10).pow(decimals));
 
     // Get ERC20 Token contract instance
     let contract = new web3.eth.Contract(tokenABI as AbiItem[], tokenAddress);
 
     await contract.methods
-      .transfer(toAddress, priceBN.toString())
+      .transfer(toAddress, tokens)
       .send({ from: fromAddress })
       .on("transactionHash", (hash) => {
         setTxn(hash);
@@ -217,17 +218,18 @@ const ItemScreen: React.FC<Props> = (props) => {
     let fromAddress = user?.data?.walletAdd;
     let tokenAddress = "0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee";
     let toAddress = item?.postedBy?.walletAdd;
-    let priceBN = price * 1000000000000000000;
+    // let priceBN = price * 1000000000000000000;
     // Use BigNumber
     // let decimals = web3.utils.toBN(18);
-    // let amount = web3.utils.toBN(item.price);
+    // let amount = web3.utils.toBN(price);
     // let value = amount.mul(web3.utils.toBN(10).pow(decimals));
+    let tokens = web3.utils.toWei(price.toString(), "ether");
 
     // Get ERC20 Token contract instance
     let contract = new web3.eth.Contract(busdABI as AbiItem[], tokenAddress);
 
     await contract.methods
-      .transfer(toAddress, priceBN.toString())
+      .transfer(toAddress, tokens)
       .send({ from: fromAddress })
       .on("transactionHash", (hash) => {
         setTxn(hash);
@@ -344,7 +346,11 @@ const ItemScreen: React.FC<Props> = (props) => {
                   : "Item Sold"}
               </Button>
               <h4 style={{ marginTop: "2rem", fontWeight: 600 }}>Posted by:</h4>
-              <ProfileCard isItemCard data={itemData?.postedBy} />
+              <ProfileCard
+                isItemCard
+                data={itemData?.postedBy}
+                isUser={user?.data?._id == itemData?.postedBy?._id}
+              />
               {user?.data?._id == itemData?.postedBy?._id && (
                 <div className={styles.ownerItemContainer}>
                   <Button

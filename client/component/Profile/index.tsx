@@ -63,6 +63,7 @@ const ProfileCard: React.FC<Props> = (props) => {
   };
 
   const renderUserModal = () => {
+    console.log(userData);
     return (
       <Modal
         maskClosable
@@ -84,7 +85,6 @@ const ProfileCard: React.FC<Props> = (props) => {
   return (
     <>
       <div
-        onClick={() => userData?._id && router.push(`/user/${userData?._id}`)}
         className={
           isItemCard ? styles.profileContainerItem : styles.profileContainer
         }
@@ -93,10 +93,12 @@ const ProfileCard: React.FC<Props> = (props) => {
         <Loader loading={isChatRoomVisible} />
         <img
           alt="profile"
+          onClick={() => userData?._id && router.push(`/user/${userData?._id}`)}
           style={{ width: isItemCard ? 70 : 100 }}
           src={userData?.pic || fallback}
         />
         <div
+          onClick={() => userData?._id && router.push(`/user/${userData?._id}`)}
           className={isItemCard ? styles.profileInnerItem : styles.profileInner}
         >
           <h4

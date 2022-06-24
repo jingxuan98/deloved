@@ -73,7 +73,6 @@ const UserScreen: React.FC<Props> = (props) => {
   };
 
   const renderReviews = () => {
-    console.log(reviewData);
     return (
       <div
         style={{ flexDirection: "column" }}
