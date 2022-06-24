@@ -6,7 +6,11 @@ import { AbiItem } from "web3-utils";
 import { abi } from "./abi";
 import { Props } from "./props";
 import { Button, Modal, notification } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import { useRouter } from "next/router";
 import ShippingForm from "../ShippingForm";
 import { busdABI, tokenABI } from "../../helper/abi";
@@ -20,6 +24,7 @@ import ItemForm from "../ItemForm";
 // );
 declare var window: any;
 export const USMTPrice = 0.65;
+const { confirm } = Modal;
 
 const ItemScreen: React.FC<Props> = (props) => {
   const { id } = props;
@@ -160,6 +165,20 @@ const ItemScreen: React.FC<Props> = (props) => {
         </div>
       </Modal>
     );
+  };
+
+  const showDeleteConfirm = () => {
+    confirm({
+      title: "Are you sure delete this item?",
+      icon: <ExclamationCircleOutlined />,
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        deleteItem();
+      },
+      onCancel() {},
+    });
   };
 
   const sendUSMTTransaction = async (item, price) => {
@@ -339,7 +358,7 @@ const ItemScreen: React.FC<Props> = (props) => {
                     className={styles.ownerButton}
                     type="ghost"
                     style={{ color: "red" }}
-                    onClick={deleteItem}
+                    onClick={showDeleteConfirm}
                   >
                     <DeleteOutlined /> Delete
                   </Button>

@@ -1,7 +1,7 @@
 .cardPrice {
   font-weight: 700;
   color: #004aa2;
-  font-size: 18px;
+  font-size: 17px;
   cursor: pointer;
   transition: transform 0.2s;
 }
