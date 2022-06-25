@@ -3,7 +3,7 @@ const cors = require("cors");
 const app = express();
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 5002;
-const { MONGOURI } = require("./config/key");
+const { MONGOURI, FRONTENDURL } = require("./config/key");
 const socket = require("socket.io");
 
 mongoose.connect(MONGOURI);
@@ -36,7 +36,7 @@ const server = app.listen(PORT, () => {
 
 const io = socket(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: FRONTENDURL,
     credentials: true,
   },
 });
