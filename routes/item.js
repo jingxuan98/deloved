@@ -18,9 +18,11 @@ router.get("/allItems", (req, res) => {
     });
 });
 
-router.post("/allItemsSort", (req, res) => {
+router.post("/allItemsSort", async (req, res) => {
   const { order, field, query, catogery } = req.body;
   let findFilter;
+  const page = req.query.p || 0;
+  const itemsPerPage = 6;
 
   if (catogery == "") {
     findFilter = {
@@ -33,24 +35,30 @@ router.post("/allItemsSort", (req, res) => {
     };
   }
 
+  let number = await Item.count(findFilter);
+
   if (field == "price") {
     Item.find(findFilter)
-      .sort({ price: order })
+      .sort({ price: order, _id: 1 })
+      .skip(page * itemsPerPage)
+      .limit(itemsPerPage)
       .populate("postedBy", "_id name")
       .populate("boughtBy", "_id name walletAdd")
       .then((items) => {
-        res.json({ items });
+        res.json({ items, total: number });
       })
       .catch((err) => {
         console.log(err);
       });
   } else if (field == "date") {
     Item.find(findFilter)
-      .sort({ createdAt: order })
+      .sort({ createdAt: order, _id: 1 })
+      .skip(page * itemsPerPage)
+      .limit(itemsPerPage)
       .populate("postedBy", "_id name")
       .populate("boughtBy", "_id name walletAdd")
       .then((items) => {
-        res.json({ items });
+        res.json({ items, total: number });
       })
       .catch((err) => {
         console.log(err);
@@ -59,9 +67,11 @@ router.post("/allItemsSort", (req, res) => {
     Item.find(findFilter)
       .populate("postedBy", "_id name")
       .populate("boughtBy", "_id name walletAdd")
-      .sort({ viewCount: -1 })
+      .sort({ viewCount: -1, _id: 1 })
+      .skip(page * itemsPerPage)
+      .limit(itemsPerPage)
       .then((items) => {
-        res.json({ items });
+        res.json({ items, total: number });
       })
       .catch((err) => {
         console.log(err);
@@ -81,8 +91,10 @@ router.get("/item/:id", (req, res) => {
     });
 });
 
-router.post("/search", (req, res) => {
+router.post("/search", async (req, res) => {
   let itemPattern = new RegExp("^.*" + req.body.query + ".*$");
+  const page = req.query.p || 0;
+  const itemsPerPage = 6;
 
   const { order, field, query, catogery } = req.body;
   let findFilter;
@@ -100,29 +112,37 @@ router.post("/search", (req, res) => {
     };
   }
 
+  let number = await Item.count(findFilter);
+
   if (field == "price") {
     Item.find(findFilter)
-      .sort({ price: order })
+      .sort({ price: order, _id: 1 })
+      .skip(page * itemsPerPage)
+      .limit(itemsPerPage)
       .then((item) => {
-        res.json({ item });
+        res.json({ item, total: number });
       })
       .catch((err) => {
         console.log(err);
       });
   } else if (field == "date") {
     Item.find(findFilter)
-      .sort({ createdAt: order })
+      .sort({ createdAt: order, _id: 1 })
+      .skip(page * itemsPerPage)
+      .limit(itemsPerPage)
       .then((item) => {
-        res.json({ item });
+        res.json({ item, total: number });
       })
       .catch((err) => {
         console.log(err);
       });
   } else {
     Item.find(findFilter)
-      .sort({ viewCount: -1 })
+      .sort({ viewCount: -1, _id: 1 })
+      .skip(page * itemsPerPage)
+      .limit(itemsPerPage)
       .then((item) => {
-        res.json({ item });
+        res.json({ item, total: number });
       })
       .catch((err) => {
         console.log(err);
