@@ -22,7 +22,7 @@ router.post("/allItemsSort", async (req, res) => {
   const { order, field, query, catogery } = req.body;
   let findFilter;
   const page = req.query.p || 0;
-  const itemsPerPage = 6;
+  const itemsPerPage = 8;
 
   if (catogery == "") {
     findFilter = {
@@ -94,7 +94,7 @@ router.get("/item/:id", (req, res) => {
 router.post("/search", async (req, res) => {
   let itemPattern = new RegExp("^.*" + req.body.query + ".*$");
   const page = req.query.p || 0;
-  const itemsPerPage = 6;
+  const itemsPerPage = 8;
 
   const { order, field, query, catogery } = req.body;
   let findFilter;
