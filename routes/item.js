@@ -155,6 +155,7 @@ router.post("/myitem", (req, res) => {
     postedBy: req.body._id,
   })
     .populate("postedBy", "_id name walletAdd")
+    .sort({ createdAt: 1 })
     .then((myitem) => {
       res.json({
         myitem,
