@@ -46,7 +46,7 @@ const itemSchema = new mongoose.Schema(
         "Electronics",
         "Supplements",
         "Beauty & Cosmectics",
-        "Furnitures",
+        "Furnitures & Collectibles",
         "Services",
         "Weapons",
       ],
