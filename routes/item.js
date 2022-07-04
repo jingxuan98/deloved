@@ -206,7 +206,7 @@ router.post("/createItem", (req, res) => {
       });
     })
     .catch((err) => {
-      return res.status(422).json({ error: err });
+      return res.status(422).json({ message: err });
     });
 });
 
