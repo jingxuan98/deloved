@@ -11,6 +11,8 @@ router.post("/createOrder", (req, res) => {
     buyerId,
     sellerId,
     txn,
+    price,
+    token,
     receiverName,
     phone,
     address1,
@@ -37,6 +39,8 @@ router.post("/createOrder", (req, res) => {
       receiverName,
       phone,
       txn,
+      price,
+      token,
       address1,
       address2,
       postcode,
@@ -118,6 +122,26 @@ router.put("/updateOrder/:orderId", (req, res) => {
         trackingNo,
         courrierName,
         status: "SHIPPED",
+      },
+    },
+    { new: true },
+    (err, result) => {
+      if (err) {
+        return res.status(422).json({ message: "update error" });
+      }
+      res.json({ result, message: "Updated Successfully" });
+    }
+  );
+});
+
+router.put("/updateOrderPrice/:orderId", (req, res) => {
+  const { price, token } = req.body;
+  Order.findByIdAndUpdate(
+    req.params.orderId,
+    {
+      $set: {
+        price,
+        token,
       },
     },
     { new: true },

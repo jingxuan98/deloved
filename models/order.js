@@ -22,6 +22,14 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    price: {
+      type: Number,
+      //required: true,
+    },
+    token: {
+      type: String,
+      //required: true,
+    },
     receiverName: {
       type: String,
     },
