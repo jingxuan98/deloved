@@ -25,11 +25,11 @@ require("../models/chatRoom");
 require("../models/chat");
 
 app.use(express.json());
-app.use(require("../routes/user"));
-app.use(require("../routes/item"));
-app.use(require("../routes/order"));
-app.use(require("../routes/review"));
-app.use(require("../routes/chat"));
+app.use(require("./user"));
+app.use(require("./item"));
+app.use(require("./order"));
+app.use(require("./review"));
+app.use(require("./chat"));
 
 const server = app.listen(PORT, () => {
   console.log("server is running", PORT);
