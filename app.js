@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const PORT = process.env.PORT || 5002;
 const { MONGOURI, FRONTENDURL } = require("./config/key");
 const socket = require("socket.io");
+require('dotenv').config();
 
 mongoose.connect(MONGOURI);
 mongoose.connection.on("connected", () => {
